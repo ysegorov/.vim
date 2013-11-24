@@ -1,10 +1,43 @@
+if has("autocmd")
+    " let g:unite_data_directory=expand("$XDG_CACHE_HOME/vim/unite")
+    " let g:unite_enable_start_insert = 1
+    " let g:unite_prompt='» '
+
+    " call unite#filters#matcher_default#use(['matcher_fuzzy'])
+    " call unite#filters#sorter_default#use(['sorter_rank'])
+
+    " call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+    "       \ 'ignore_pattern',
+    "       \ escape(
+    "       \     substitute(join(split(&wildignore, ","), '\|'), '**/\?', '', 'g'),
+    "       \     '.'))
+
+    function! <SID>Unite_Settings()
+        nmap <buffer> <Esc> <Plug>(unite_exit)
+        imap <buffer> <Esc> <Plug>(unite_exit)
+        imap <buffer> <C-c> <Plug>(unite_insert_leave)
+
+        nmap <buffer> <C-y> <Plug>(unite_narrowing_path)
+        imap <buffer> <C-y> <Plug>(unite_narrowing_path)
+
+        silent! iunmap <buffer><C-H>
+        silent! iunmap <buffer><BS>
+    endfunction
+
+    augroup unite
+        autocmd!
+        autocmd FileType unite call <SID>Unite_Settings()
+    augroup END
+endif
+
+
 let g:unite_source_session_path = g:SESSION_DIR
 let g:unite_source_history_yank_enable = 1
 let g:unite_source_menu_menus = {}
-let g:unite_enable_start_insert = 0
+let g:unite_enable_start_insert = 1
 let g:unite_enable_short_source_mes = 0
 let g:unite_force_overwrite_statusline = 0
-let g:unite_prompt = '>>> '
+let g:unite_prompt='» '
 let g:unite_marked_icon = '✓'
 let g:unite_update_time = 200
 let g:unite_split_rule = 'botright'

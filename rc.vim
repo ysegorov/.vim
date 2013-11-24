@@ -9,8 +9,8 @@
 
         set nocompatible                           " enable vim features
 
-        set backupdir=$HOME/.cache/vim/backup      " where to put backup file 
-        set backup                                 " make backup file and leave it around 
+        set backupdir=$HOME/.cache/vim/backup      " where to put backup file
+        set backup                                 " make backup file and leave it around
         set backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
 
         set directory=/tmp                         " where to put swap file
@@ -51,7 +51,7 @@
     endif
 
 " }}}
-    
+
 
 " Options {{{
 " =======
@@ -64,7 +64,7 @@
     " Display options
     set title                   " show file name in window title
     set visualbell              " mute error bell
-    set listchars=tab:⇥\ ,trail:·,extends:⋯,precedes:⋯,eol:$,nbsp:~
+    " set t_vb=
     set linebreak               " break lines by words
     set winminheight=0          " minimal window height
     set winminwidth=0           " minimal window width
@@ -77,6 +77,14 @@
     set infercase
     set nojoinspaces
     set laststatus=2            " Always show a statusline
+    set guicursor=
+    set splitbelow
+    set splitright
+    set shortmess+=I
+    set mousehide
+    set cursorline
+    set norelativenumber
+    set number
 
     " Tab options
     set autoindent              " copy indent from previous line
@@ -88,7 +96,8 @@
     set shiftround              " drop unused spaces
 
     " Backup and swap files
-    set history=400             " history length
+    set history=1000             " history length
+    set undolevels=1000
     set viminfo+=h              " save history
     set ssop-=blank             " dont save blank vindow
     set ssop-=options           " dont save options
@@ -117,7 +126,14 @@
     set wildmenu                " use wildmenu ...
     set wildmode=full
     set wildcharm=<TAB>
-    set wildignore=*.pyc,*.pdf  " ignore file pattern
+    set wildignore+=.hg,.git,.svn " Version control
+    set wildignore+=*.DS_Store    " OSX bullshit
+    set wildignore+=*.o,*.obj,*.py[co],*.bak,*.exe,*.swp,*~
+    set wildignore+=*.jpg,*.png,*.gif,*.pdf,*.jpeg,*.tiff
+    set wildignore+=*.odt,*.ods,*.zip,*.bz2,*.gz,*.tgz,*.tbz2,*.7z,*.z
+    set wildignore+=*.doc,*.xls,*.xlsx,*.docx
+    set wildignore+=eggs/**
+    set wildignore+=*.egg-info/**
 
     " Edit
     set backspace=indent,eol,start " Allow backspace to remove indents, newlines and old tex"
@@ -137,8 +153,12 @@
 
     " Folding
     if has('folding')
-        set foldmethod=marker   " Fold on marker
+        set foldcolumn=0
+        set foldmethod=indent   " Fold on indent
+        set foldnestmax=10
+        set foldenable
         set foldlevel=999       " High default so folds are shown to start
+        set foldlevelstart=999
     endif
 
     " X-clipboard support
@@ -147,9 +167,7 @@
     endif
 
     " Term
-    if &term =~ "xterm"
-        set t_Co=256            " set 256 colors
-    endif
+    set t_Co=256            " set 256 colors
 
     let g:changelog_username = $USER
     let mapleader = ","
@@ -169,6 +187,23 @@
         set guifont=Monaco\ 11
     endif
 
+    set list
+    set listchars=tab:⇥\ ,trail:·,extends:⋯,precedes:⋯,nbsp:~
+    " Символ табуляции и конца строки
+    if has('multi_byte')
+        if version >= 700
+            set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
+        else
+            set listchars=tab:»\ ,trail:·,extends:>,precedes:<,nbsp:_
+        endif
+    endif
+
+    set nowrap
+    " Символ, который будет показан перед перенесенной строкой
+    " if has("linebreak")
+    "     let &sbr = nr2char(8618).' '  " Show ↪ at the beginning of wrapped lines
+    " endif
+
 " }}}
 
 
@@ -176,16 +211,16 @@
 " ==========
 
     " Omni and dict completition
-    fun! rc#AddWrapper() "{{{ 
+    fun! rc#AddWrapper() "{{{
         if exists('&omnifunc') && &omnifunc != ''
             return "\<C-X>\<C-o>\<C-p>"
         else
             return "\<C-N>"
         endif
-    endfun "}}} 
+    endfun "}}}
 
     " Recursive vimgrep
-    fun! rc#RGrep() "{{{ 
+    fun! rc#RGrep() "{{{
         let pattern = input("Search for pattern: ", expand("<cword>"))
         if pattern == ""
             return
@@ -197,7 +232,7 @@
             return
         endif
 
-        let filepattern = input("Search in files matching pattern: ", "*.*") 
+        let filepattern = input("Search in files matching pattern: ", "*.*")
         if filepattern == ""
             return
         endif
@@ -208,7 +243,7 @@
         catch /.*/
             echohl WarningMsg | echo "Not found: ".pattern | echohl None
         endtry
-    endfun "}}} 
+    endfun "}}}
 
     " Restore cursor position
     fun! rc#restore_cursor() "{{{
@@ -254,6 +289,15 @@
 
     if has("autocmd")
 
+
+                " Use the below highlight group when displaying bad whitespace is desired.
+        highlight BadWhitespace ctermbg=red guibg=red
+
+        " Display tabs at the beginning of a line in Python mode as bad.
+        au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
+        " Make trailing whitespace be flagged as bad.
+        au BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.js,*.css,*.sass,*.scss match BadWhitespace /\s\+$/
+
         augroup vimrc
         au!
 
@@ -261,9 +305,9 @@
             au! BufWritePost *.vim source ~/.vimrc
 
             " Highlight insert mode
-            au InsertEnter * set cursorline
-            au InsertLeave * set nocursorline
-            
+            " au InsertEnter * set cursorline
+            " au InsertLeave * set nocursorline
+
             " New file templates
             au BufNewFile * silent! call rc#load_template()
 
@@ -271,7 +315,7 @@
             au BufWinEnter * call rc#restore_cursor()
 
             " Autosave last session
-            if has('mksession') 
+            if has('mksession')
                 au VimLeavePre * exe "mks! " g:SESSION_DIR.'/last.vim'
             endif
 
@@ -280,14 +324,14 @@
 
             " Filetypes {{{
             " ---------
-            
+
                 au BufNewFile,BufRead *.json setf javascript
-                au BufNewFile,BufRead *.py setl colorcolumn=80
+                au BufNewFile,BufRead *.py,*.js,*.css,*.less,*.sass,*.scss,*.html,*.handlebars,*.rst,*.txt setl colorcolumn=80
 
             " }}}
-            
+
             " Auto close preview window
-            autocmd CursorMovedI * if pumvisible() == 0|pclose|endif 
+            autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
             autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 
@@ -312,10 +356,21 @@
         inoremap <C-E> <C-o>A
         inoremap <C-A> <C-o>I
 
+        " F2 - быстрое сохранение
+        nmap <F2> :w<CR>
+        vmap <F2> <esc>:w<CR>i
+        imap <F2> <esc>:w<CR>i
+
     " }}}
-    
+
     " Normal mode {{{
     " ------------
+
+        " Map ; to <Shift>;
+        nnoremap ; :
+
+        " Quick exiting without save
+        nnoremap <Leader>`` :qa!<CR>
 
         " Nice scrolling if line wrap
         noremap j gj
@@ -327,13 +382,13 @@
         noremap \ za
 
         " Toggle paste mode
-        noremap <silent> ,p :set invpaste<CR>:set paste?<CR>
+        noremap <silent> <Leader>p :set invpaste<CR>:set paste?<CR>
 
         " Not jump on star, only highlight
         nnoremap * *N
 
         " Drop hightlight search result
-        noremap <leader><space> :set invhlsearch<CR>
+        noremap <leader><space> :nohlsearch<CR>
 
         " Fast scrool
         nnoremap <C-e> 3<C-e>
@@ -364,6 +419,9 @@
         " }}}
 
         " Window commands
+        "
+        " new vertical split
+        nnoremap <silent> <leader>v :wincmd v<CR>
         nnoremap <silent> <leader>h :wincmd h<CR>
         nnoremap <silent> <leader>j :wincmd j<CR>
         nnoremap <silent> <leader>k :wincmd k<CR>
@@ -390,13 +448,19 @@
 
         " Open new tab
         nnoremap <silent> <C-W>t :tabnew<CR>
+        " Переключение вкладки по табу
+        nmap <Tab> gt
+        nmap <S-Tab> gT
+
+        " Fix Trailing White Space
+        map <leader>ts :%s/\s\+$//e<CR>
 
         " Keymap switch <C-F>
         " cnoremap <silent> <C-F> <C-^>
         inoremap <silent> <C-F> <C-^>
         nnoremap <silent> <C-F> a<C-^><Esc>
         vnoremap <silent> <C-F> <Esc>a<C-^><Esc>gv
-    
+
         nnoremap <silent> <leader>ol :set list! list?<CR>
         nnoremap <silent> <leader>or :set wrap! wrap?<CR>
         nnoremap <silent> <leader>on :call ToggleRelativeAbsoluteNumber()<CR>
@@ -424,7 +488,7 @@
             echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
         endfunc
 
-  
+
     " }}}
 
     " Command mode {{{
@@ -440,6 +504,22 @@
         command! W %!sudo tee > /dev/null %
 
     " }}}
+
+    " Visual mode {{{
+    " ------------
+
+    " < >
+        vnoremap < <gv
+        vnoremap > >gv
+
+    " git blame
+        vmap <Leader>gg :<C-U>!git blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
+
+    " http://tammersaleh.com/posts/quick-vim-svn-blame-snippet
+        vmap <Leader>gs :<C-U>!svn blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
+
+    " http://vimbits.com/bits/155
+        vmap <Leader>gh :<C-U>!hg annotate -udqc % \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
 
 " }}}
 
@@ -499,10 +579,10 @@
     " =============
 
         " Vim plugin for intensely orgasmic commenting
-        NeoBundle 'scrooloose/nerdcommenter'
+        " NeoBundle 'scrooloose/nerdcommenter'
 
-        let NERDSpaceDelims = 1
-    
+        " let NERDSpaceDelims = 1
+
     " }}}
 
     " Fugitive {{{
@@ -530,8 +610,33 @@
 
         let g:Gitv_WipeAllOnClose = 1
         let g:Gitv_DoNotMapCtrlKey = 1
-    
+
     " }}}
+
+    " Unite {{{
+    " =====
+
+        NeoBundle "Shougo/unite.vim"
+
+        NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}}
+
+        NeoBundleLazy 'Shougo/unite-session', {'autoload':{'unite_sources':'session', 'commands': ['UniteSessionSave', 'UniteSessionLoad']}}
+
+        NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources': ['quickfix', 'location_list']}}
+
+        NeoBundleLazy 'thinca/vim-unite-history', { 'autoload' : { 'unite_sources' : ['history/command', 'history/search']}}
+
+        NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources': 'colorscheme'}}
+
+        NeoBundleLazy 'tsukkee/unite-help', {'autoload':{'unite_sources':'help'}}
+
+        NeoBundleLazy 'klen/unite-radio.vim', {'autoload':{'unite_sources':'radio'}}
+
+        " source $HOME/.vim/unite.vim
+
+
+    " }}}
+
 
     " Airline {{{
     " =======
@@ -544,7 +649,7 @@
         let g:airline_left_sep = ''
         let g:airline_right_sep = ''
         let g:airline_theme = 'wombat'
-    
+
     " }}}
 
     " TagBar {{{
@@ -567,7 +672,23 @@
         " Toggle tagbar
         nnoremap <silent> <F3> :TagbarToggle<CR>
 
-    
+
+    " }}}
+
+    " Color {{{
+    "
+        NeoBundle 'jonathanfilip/vim-lucius'
+        color lucius
+        map <F5> :call ToggleBg()<CR>
+        set bg=dark
+        function! ToggleBg()
+            if &background == 'dark'
+                set bg=light
+            else
+                set bg=dark
+            endif
+        endfunc
+
     " }}}
 
     " XPTemplate {{{
@@ -581,14 +702,14 @@
         let g:xptemplate_highlight = 'following'
         let g:xptemplate_vars = 'author=Kirill Klenov&email=horneds@gmail.com&SPfun=&SParg=&PYTHON_EXP_SYM= as '
         let g:xptemplate_brace_complete = 1
-    
+
     " }}}
 
     " Startify {{{
     " ========
 
         " A fancy start screen for Vim.
-	NeoBundle 'mhinz/vim-startify'
+        NeoBundle 'mhinz/vim-startify'
 
         let g:startify_session_dir = g:SESSION_DIR
         let g:startify_custom_header = [
@@ -614,14 +735,17 @@
         let g:pymode_syntax_print_as_function = 1
         let g:pymode_lint_mccabe_complexity = 10
         let g:pymode_lint_checker = "pylint,pep8,pyflakes,mccabe,pep257"
-    
+        let g:pymode_virtualenv = 1
+        let g:pymode_rope = 0
+        let g:pymode_lint_cwindow = 0
+
     " }}}
 
     " WIKI {{{
     " ====
 
         NeoBundle "vimwiki/vimwiki", "dev"
-        
+
         let g:vimwiki_folding = 1
         let g:vimwiki_fold_lists = 1
         let g:vimwiki_list = [{"path" : "~/Dropbox/wiki"}, {"path" : "~/Dropbox/wiki/english"}]
@@ -634,38 +758,14 @@
     " ========
 
         NeoBundle "unphased/vim-fakeclip"
-    
+
     " }}}
 
     " JSMode {{{
     " ========
 
         NeoBundle "klen/vim-jsmode"
-    
-    " }}}
 
-    " Unite {{{
-    " =====
-
-        NeoBundle "Shougo/unite.vim"
-
-        NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}}
-
-        NeoBundleLazy 'Shougo/unite-session', {'autoload':{'unite_sources':'session', 'commands': ['UniteSessionSave', 'UniteSessionLoad']}}
-
-        NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources': ['quickfix', 'location_list']}}
-
-        NeoBundleLazy 'thinca/vim-unite-history', { 'autoload' : { 'unite_sources' : ['history/command', 'history/search']}}
-
-        NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources': 'colorscheme'}}
-
-        NeoBundleLazy 'tsukkee/unite-help', {'autoload':{'unite_sources':'help'}}
-
-        NeoBundleLazy 'klen/unite-radio.vim', {'autoload':{'unite_sources':'radio'}}
-
-        source $HOME/.vim/unite.vim
-
-  
     " }}}
 
     " GUndo {{{
@@ -675,7 +775,7 @@
         NeoBundleLazy 'sjl/gundo.vim', { 'autoload' : {'commands': 'GundoToggle'}}
 
         nnoremap <leader>uu :GundoToggle<CR>
-    
+
     " }}}
 
     " VimSpec {{{
@@ -683,7 +783,7 @@
 
         " Testing framework for Vim script
         NeoBundle 'kana/vim-vspec'
-    
+
     " }}}
 
     " git-slides {{{
@@ -691,9 +791,79 @@
 
         " Testing framework for Vim script
         " NeoBundle 'gelisam/git-slides'
-    
+
     " }}}
 
+    " Neocomplete {{{
+    " ==========
+
+        NeoBundle 'Shougo/neocomplete.vim'
+
+        let g:neocomplete#enable_at_startup = 1
+        let g:neocomplete#enable_smart_case = 1
+        let g:neocomplete#enable_auto_select = 1
+        let g:neocomplete#enable_refresh_always = 1
+        let g:neocomplete#max_list = 30
+        let g:neocomplete#min_keyword_length = 1
+        let g:neocomplete#sources#syntax#min_keyword_length = 1
+        let g:neocomplete#data_directory = $HOME.'/.cache/vim/neocomplete'
+
+        " Enable omni completion.
+        autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+        autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+        autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+        autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+        autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+    " }}}
+
+    " Syntax {{{
+    " ==========
+
+        NeoBundleLazy 'vim-scripts/JSON.vim', {'autoload': {'filetypes': ['json']}}
+        " NeoBundleLazy 'vim-scripts/po.vim--gray', {'autoload': {'filetypes': ['po']}}
+        " NeoBundleLazy 'joedicastro/vim-pentadactyl', {
+        "            \ 'autoload': {'filetypes': ['pentadactyl']}}
+        " NeoBundle 'scrooloose/syntastic'
+
+    " }}}
+
+    " Toggle comments {{{
+    " ==========
+
+        NeoBundle 'tpope/vim-commentary'
+
+        nmap <Leader>c <Plug>CommentaryLine
+        xmap <Leader>c <Plug>Commentary
+
+        augroup plugin_commentary
+            au!
+            au FileType python setlocal commentstring=#%s
+            au FileType htmldjango setlocal commentstring={#\ %s\ #}
+            au FileType puppet setlocal commentstring=#\ %s
+        augroup END
+
+    " }}}
+
+    " ColorV {{{
+    " ==========
+
+        " A smart and powerful Color Management tool. Needs to be loaded to be able
+        " to use the mappings
+        NeoBundleLazy 'Rykka/colorv.vim', {'autoload' : {
+                    \ 'commands' : [
+                                    \ 'ColorV', 'ColorVView', 'ColorVPreview',
+                                    \ 'ColorVPicker', 'ColorVEdit', 'ColorVEditAll',
+                                    \ 'ColorVInsert', 'ColorVList', 'ColorVName',
+                                    \ 'ColorVScheme', 'ColorVSchemeFav',
+                                    \ 'ColorVSchemeNew', 'ColorVTurn2'],
+                    \ }}
+
+        let g:colorv_cache_file=$HOME.'/.cache/vim/vim_colorv_cache'
+        let g:colorv_cache_fav=$HOME.'/.cache/vim/vim_colorv_cache_fav'
+
+    " }}}
 
 " }}}
 
