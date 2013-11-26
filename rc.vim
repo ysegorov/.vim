@@ -136,9 +136,9 @@
     set wildignore+=*.egg-info/**
 
     " Edit
-    set backspace=indent,eol,start " Allow backspace to remove indents, newlines and old tex"
-    set virtualedit=all         " on virtualedit for all mode
-    set nrformats=              " dont use octal and hex in number operations
+    set backspace=indent,eol,start  " Allow backspace to remove indents, newlines and old tex"
+    set virtualedit=block,insert    " on virtualedit for all mode
+    set nrformats=                  " dont use octal and hex in number operations
 
     set ttimeoutlen=50
 
