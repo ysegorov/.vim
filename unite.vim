@@ -90,8 +90,7 @@ nnoremap <silent>[menu]u :Unite -silent -winheight=12 menu<CR>
 
 " File's operations {{{
 
-    nnoremap <leader>uo :<C-u>Unite -no-split -start-insert file<CR>
-    nnoremap <leader>uO :<C-u>Unite -no-split -start-insert file_rec/async:!<CR>
+    nnoremap <leader>uo :<C-u>Unite -no-split -start-insert file_rec/async:!<CR>
     nnoremap <leader>um :<C-u>Unite -no-split file_mru<CR>
 
     let g:unite_source_menu_menus.files = {
