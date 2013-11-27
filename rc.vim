@@ -137,7 +137,7 @@
 
     " Edit
     set backspace=indent,eol,start  " Allow backspace to remove indents, newlines and old tex"
-    set virtualedit=all             " on virtualedit for all mode
+    set virtualedit=block             " on virtualedit for all mode
     set nrformats=                  " dont use octal and hex in number operations
 
     set ttimeoutlen=50
@@ -157,10 +157,10 @@
     if has('folding')
         set foldcolumn=0
         set foldmethod=indent   " Fold on indent
-        set foldnestmax=10
+        " set foldnestmax=10
         set foldenable
         set foldlevel=999       " High default so folds are shown to start
-        set foldlevelstart=999
+        " set foldlevelstart=999
     endif
 
     " X-clipboard support
@@ -292,7 +292,7 @@
     if has("autocmd")
 
 
-                " Use the below highlight group when displaying bad whitespace is desired.
+        " Use the below highlight group when displaying bad whitespace is desired.
         highlight BadWhitespace ctermbg=red guibg=red
 
         " Display tabs at the beginning of a line in Python mode as bad.
@@ -347,6 +347,9 @@
 " Hot keys {{{
 " ==========
 
+    " Fix Trailing White Space
+        map <leader>ts :%s/\s\+$//e<CR>
+
     " Insert mode {{{
     " ------------
 
@@ -362,6 +365,12 @@
         nmap <F2> :w<CR>
         vmap <F2> <esc>:w<CR>i
         imap <F2> <esc>:w<CR>i
+
+    " {<CR>
+        " auto complete {}
+        inoremap [ []<LEFT>
+        inoremap ( ()<LEFT>
+        inoremap { {}<LEFT>
 
     " }}}
 
@@ -564,6 +573,14 @@
         NeoBundle 'scrooloose/nerdtree'
 
         let NERDTreeWinSize = 30
+        let NERDTreeShowBookmarks=1
+        let NERDTreeChDirMode=2
+        let NERDTreeQuitOnOpen=1
+        let NERDTreeShowHidden=1
+        let NERDTreeKeepTreeInNewTab=0
+        let NERDTreeMinimalUI=1 " Disables display of the 'Bookmarks' label and 'Press ? for help' text.
+        let NERDTreeDirArrows=1 " Tells the NERD tree to use arrows instead of + ~ chars when displaying directories.
+        let NERDTreeBookmarksFile= $HOME . '/.cache/.vim/.NERDTreeBookmarks'
 
         " files/dirs to ignore in NERDTree (mostly the same as my svn ignores)
         let NERDTreeIgnore=['\~$', '\.AppleDouble$', '\.beam$', 'build$',
@@ -615,27 +632,48 @@
 
     " }}}
 
+    " CtrlP {{{
+    " =====
+
+        NeoBundle "kien/ctrlp.vim"
+
+        let g:ctrlp_map = '<c-p>'
+        let g:ctrlp_working_path_mode = 'ra'
+        let g:ctrlp_clear_cache_on_exit = 1
+        let g:ctrlp_match_window_reversed = 0
+        let g:ctrlp_max_height = 20
+
+    " }}}
+
     " Unite {{{
     " =====
 
-        NeoBundle "Shougo/unite.vim"
+        " NeoBundle "Shougo/unite.vim"
 
-        NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}}
+        " NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}}
 
-        NeoBundleLazy 'Shougo/unite-session', {'autoload':{'unite_sources':'session', 'commands': ['UniteSessionSave', 'UniteSessionLoad']}}
+        " NeoBundleLazy 'Shougo/unite-session', {'autoload':{'unite_sources':'session', 'commands': ['UniteSessionSave', 'UniteSessionLoad']}}
 
-        NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources': ['quickfix', 'location_list']}}
+        " NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources': ['quickfix', 'location_list']}}
 
-        NeoBundleLazy 'thinca/vim-unite-history', { 'autoload' : { 'unite_sources' : ['history/command', 'history/search']}}
+        " NeoBundleLazy 'thinca/vim-unite-history', { 'autoload' : { 'unite_sources' : ['history/command', 'history/search']}}
 
-        NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources': 'colorscheme'}}
+        " NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources': 'colorscheme'}}
 
-        NeoBundleLazy 'tsukkee/unite-help', {'autoload':{'unite_sources':'help'}}
+        " NeoBundleLazy 'tsukkee/unite-help', {'autoload':{'unite_sources':'help'}}
 
-        NeoBundleLazy 'klen/unite-radio.vim', {'autoload':{'unite_sources':'radio'}}
+        " NeoBundleLazy 'klen/unite-radio.vim', {'autoload':{'unite_sources':'radio'}}
 
         " source $HOME/.vim/unite.vim
 
+
+    " }}}
+
+
+    " Powerline {{{
+    " =======
+
+        NeoBundle "Lokaltog/powerline", {'rtp': 'powerline/bindings/vim/'}
 
     " }}}
 
@@ -644,13 +682,13 @@
     " =======
 
         " lean & mean statusline for vim that's light as air
-        NeoBundle 'bling/vim-airline'
+        " NeoBundle 'bling/vim-airline'
 
-        let g:airline_powerline_fonts=1
+        " let g:airline_powerline_fonts=1
 
-        let g:airline_detect_iminsert = 1
-        let g:airline_exclude_preview = 1
-        let g:airline_theme = 'wombat'
+        " let g:airline_detect_iminsert = 1
+        " let g:airline_exclude_preview = 1
+        " let g:airline_theme = 'wombat'
 
         " if !exists('g:airline_symbols')
         "     let g:airline_symbols = {}
@@ -670,14 +708,14 @@
         " let g:airline_symbols.paste = '∥'
         " let g:airline_symbols.whitespace = 'Ξ'
 
-        let g:airline#extensions#tabline#enabled = 1
+        " let g:airline#extensions#tabline#enabled = 1
 
-        let g:airline#extensions#whitespace#enabled = 1
-        let g:airline#extensions#whitespace#symbol = '!'
-        let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing' ]
-        let g:airline#extensions#whitespace#show_message = 1
-        let g:airline#extensions#whitespace#trailing_format = '!ts[%s]'
-        let g:airline#extensions#whitespace#mixed_indent_format = '!indent[%s]'
+        " let g:airline#extensions#whitespace#enabled = 1
+        " let g:airline#extensions#whitespace#symbol = '!'
+        " let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing' ]
+        " let g:airline#extensions#whitespace#show_message = 1
+        " let g:airline#extensions#whitespace#trailing_format = '!ts[%s]'
+        " let g:airline#extensions#whitespace#mixed_indent_format = '!indent[%s]'
 
     " }}}
 
@@ -720,19 +758,6 @@
 
     " }}}
 
-    " XPTemplate {{{
-    " ==========
-
-        " Code snippets engine for Vim, with snippets library
-        NeoBundle 'drmingdrmer/xptemplate'
-
-        let g:xptemplate_key = '<Tab>'
-        let g:xptemplate_key_pum_only = '<S-Tab>'
-        let g:xptemplate_highlight = 'following'
-        let g:xptemplate_vars = 'author=Kirill Klenov&email=horneds@gmail.com&SPfun=&SParg=&PYTHON_EXP_SYM= as '
-        let g:xptemplate_brace_complete = 1
-
-    " }}}
 
     " Startify {{{
     " ========
@@ -786,7 +811,7 @@
     " Fakeclip {{{
     " ========
 
-        NeoBundle "unphased/vim-fakeclip"
+        " NeoBundle "unphased/vim-fakeclip"
 
     " }}}
 
@@ -820,7 +845,7 @@
     " =======
 
         " Testing framework for Vim script
-        NeoBundle 'kana/vim-vspec'
+        " NeoBundle 'kana/vim-vspec'
 
     " }}}
 
@@ -835,16 +860,16 @@
     " Neocomplete {{{
     " ==========
 
-        NeoBundle 'Shougo/neocomplete.vim'
+        " NeoBundle 'Shougo/neocomplete.vim'
 
-        let g:neocomplete#enable_at_startup = 0
-        let g:neocomplete#enable_smart_case = 1
-        let g:neocomplete#enable_auto_select = 1
-        let g:neocomplete#enable_refresh_always = 1
-        let g:neocomplete#max_list = 30
-        let g:neocomplete#min_keyword_length = 1
-        let g:neocomplete#sources#syntax#min_keyword_length = 1
-        let g:neocomplete#data_directory = $HOME.'/.cache/vim/neocomplete'
+        " let g:neocomplete#enable_at_startup = 0
+        " let g:neocomplete#enable_smart_case = 1
+        " let g:neocomplete#enable_auto_select = 1
+        " let g:neocomplete#enable_refresh_always = 1
+        " let g:neocomplete#max_list = 30
+        " let g:neocomplete#min_keyword_length = 1
+        " let g:neocomplete#sources#syntax#min_keyword_length = 1
+        " let g:neocomplete#data_directory = $HOME.'/.cache/vim/neocomplete'
 
         " Enable omni completion.
         autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
