@@ -137,7 +137,7 @@
 
     " Edit
     set backspace=indent,eol,start  " Allow backspace to remove indents, newlines and old tex"
-    set virtualedit=block,insert    " on virtualedit for all mode
+    set virtualedit=all             " on virtualedit for all mode
     set nrformats=                  " dont use octal and hex in number operations
 
     set ttimeoutlen=50
@@ -793,7 +793,9 @@
     " JSMode {{{
     " ========
 
-        NeoBundle "klen/vim-jsmode"
+        " NeoBundle "klen/vim-jsmode"
+
+        " let g:jsmode_lint_cwindow = 0
 
     " }}}
 
@@ -835,7 +837,7 @@
 
         NeoBundle 'Shougo/neocomplete.vim'
 
-        let g:neocomplete#enable_at_startup = 1
+        let g:neocomplete#enable_at_startup = 0
         let g:neocomplete#enable_smart_case = 1
         let g:neocomplete#enable_auto_select = 1
         let g:neocomplete#enable_refresh_always = 1
