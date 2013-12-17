@@ -328,6 +328,7 @@
             " ---------
 
                 au BufNewFile,BufRead *.json setf javascript
+                au BufNewFile,BufRead *.handlebars setf mustache
                 au BufNewFile,BufRead *.py,*.js,*.css,*.less,*.sass,*.scss,*.html,*.handlebars,*.rst,*.txt setl colorcolumn=80
                 autocmd FileType python,javascript,css autocmd BufWritePre <buffer> :%s/\s\+$//e
 
@@ -561,6 +562,9 @@
     NeoBundleLazy 'alfredodeza/coveragepy.vim', {'autoload': {'filetypes': ['python']}}
 
     " HTML/CSS
+    NeoBundle 'lunaru/vim-less'
+    NeoBundle 'mustache/vim-mustache-handlebars'
+
     NeoBundleLazy 'othree/html5.vim', {'autoload':
         \ {'filetypes': ['html', 'xhttml', 'css']}}
 
