@@ -572,6 +572,9 @@
     NeoBundleLazy 'mattn/emmet-vim', {'autoload':
         \ {'filetypes': ['html', 'xhttml', 'css', 'xml', 'xls', 'markdown']}}
 
+    " the_silver_searcher aka ag
+    NeoBundle 'rking/ag.vim'
+
     " NERDTree {{{
     " ========
 
