@@ -583,7 +583,7 @@
 
         let NERDTreeWinSize = 30
         let NERDTreeShowBookmarks=1
-        let NERDTreeChDirMode=2
+        let NERDTreeChDirMode=0
         let NERDTreeQuitOnOpen=1
         let NERDTreeShowHidden=1
         let NERDTreeKeepTreeInNewTab=0
