@@ -176,8 +176,10 @@
     let maplocalleader = " "
 
     " Color themes
-    colo jellybeans
-    let g:jellybeans_background_color_256 = 234
+    " set bg=dark
+    " color xoria256
+    " colo jellybeans
+    " let g:jellybeans_background_color_256 = 234
 
     " Open help in a vsplit rather than a split
     command! -nargs=? -complete=help Help :vertical help <args>
@@ -186,7 +188,7 @@
     " Some gui settings
     if has("gui_running")
         set guioptions=agimP
-        set guifont=Monaco\ 11
+        set guifont=Ubuntu\ Mono\ 8
     endif
 
     set list
@@ -753,20 +755,22 @@
 
     " Color {{{
     "
-        NeoBundle 'jonathanfilip/vim-lucius'
-        color lucius
-        map <F5> :call ToggleBg()<CR>
-        set bg=dark
-        function! ToggleBg()
-            if &background == 'dark'
-                set bg=light
-            else
-                set bg=dark
-            endif
-        endfunc
+        " NeoBundle 'jonathanfilip/vim-lucius'
+        " set bg=dark
+        " color lucius
+        " map <F5> :call ToggleBg()<CR>
+        " function! ToggleBg()
+        "     if &background == 'dark'
+        "         set bg=light
+        "     else
+        "         set bg=dark
+        "     endif
+        " endfunc
 
     " }}}
 
+    NeoBundle 'w0ng/vim-hybrid'
+    color hybrid
 
     " Startify {{{
     " ========
