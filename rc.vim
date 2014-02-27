@@ -767,10 +767,11 @@
         "     endif
         " endfunc
 
-    " }}}
+        NeoBundle 'w0ng/vim-hybrid'
+        " let g:hybrid_use_Xresources = 0
+        color hybrid
 
-    NeoBundle 'w0ng/vim-hybrid'
-    color hybrid
+    " }}}
 
     " Startify {{{
     " ========
