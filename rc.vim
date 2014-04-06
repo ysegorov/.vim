@@ -684,7 +684,7 @@
     " Powerline {{{
     " =======
 
-        NeoBundle "Lokaltog/powerline", {'rtp': 'powerline/bindings/vim/'}
+      "  NeoBundle "Lokaltog/powerline", {'rtp': 'powerline/bindings/vim/'}
 
     " }}}
 
@@ -693,23 +693,23 @@
     " =======
 
         " lean & mean statusline for vim that's light as air
-        " NeoBundle 'bling/vim-airline'
+        NeoBundle 'bling/vim-airline'
 
         " let g:airline_powerline_fonts=1
 
-        " let g:airline_detect_iminsert = 1
-        " let g:airline_exclude_preview = 1
-        " let g:airline_theme = 'wombat'
+        let g:airline_detect_iminsert = 1
+        let g:airline_exclude_preview = 1
+        let g:airline_theme = 'wombat'
 
-        " if !exists('g:airline_symbols')
-        "     let g:airline_symbols = {}
-        " endif
+        if !exists('g:airline_symbols')
+            let g:airline_symbols = {}
+        endif
 
         " unicode symbols
         " let g:airline_left_sep = '»'
         " let g:airline_right_sep = '«'
-        " let g:airline_left_sep = '▶'
-        " let g:airline_right_sep = '◀'
+        let g:airline_left_sep = '▶'
+        let g:airline_right_sep = '◀'
         " let g:airline_symbols.linenr = '␊'
         " let g:airline_symbols.linenr = '␤'
         " let g:airline_symbols.linenr = '¶'
