@@ -176,10 +176,10 @@
     let maplocalleader = " "
 
     " Color themes
-    " set bg=dark
+    set bg=dark
     " color xoria256
-    " colo jellybeans
-    " let g:jellybeans_background_color_256 = 234
+    color jellybeans
+    let g:jellybeans_background_color_256 = 234
 
     " Open help in a vsplit rather than a split
     command! -nargs=? -complete=help Help :vertical help <args>
@@ -767,9 +767,9 @@
         "     endif
         " endfunc
 
-        NeoBundle 'w0ng/vim-hybrid'
+        " NeoBundle 'w0ng/vim-hybrid'
         " let g:hybrid_use_Xresources = 0
-        color hybrid
+        " color hybrid
 
     " }}}
 
