@@ -147,6 +147,20 @@
 
     set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
 
+
+    set statusline=
+    set statusline+=%7*\[%n]                                  "buffernr
+    set statusline+=%1*\ %<%F\                                "File+path
+    set statusline+=%2*\ %y\                                  "FileType
+    set statusline+=%3*\ %{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
+    set statusline+=%3*\ %{(&bomb?\",BOM\":\"\")}\            "Encoding2
+    set statusline+=%4*\ %{&ff}\                              "FileFormat (dos/unix..) 
+    set statusline+=%5*\ %{&spelllang}\                       "Spellanguage?
+    set statusline+=%8*\ %=\ row:%l/%L\ (%03p%%)\             "Rownumber/total (%)
+    set statusline+=%9*\ col:%03c\                            "Colnr
+    set statusline+=%0*\ \ %m%r%w\ %P\ \                      "Modified? Readonly? Top/bot.
+
+
     " Undo
     if has('persistent_undo')
         set undofile            " enable persistent undo
@@ -577,6 +591,9 @@
     " the_silver_searcher aka ag
     NeoBundle 'rking/ag.vim'
 
+    " obvious mode
+    NeoBundle 'vim-scripts/Obvious-Mode'
+
     " NERDTree {{{
     " ========
 
@@ -693,23 +710,23 @@
     " =======
 
         " lean & mean statusline for vim that's light as air
-        NeoBundle 'bling/vim-airline'
+        " NeoBundle 'bling/vim-airline'
 
         " let g:airline_powerline_fonts=1
 
-        let g:airline_detect_iminsert = 1
-        let g:airline_exclude_preview = 1
-        let g:airline_theme = 'wombat'
+        " let g:airline_detect_iminsert = 1
+        " let g:airline_exclude_preview = 1
+        " let g:airline_theme = 'wombat'
 
-        if !exists('g:airline_symbols')
-            let g:airline_symbols = {}
-        endif
+        " if !exists('g:airline_symbols')
+        "     let g:airline_symbols = {}
+        " endif
 
         " unicode symbols
         " let g:airline_left_sep = '»'
         " let g:airline_right_sep = '«'
-        let g:airline_left_sep = '▶'
-        let g:airline_right_sep = '◀'
+        " let g:airline_left_sep = '▶'
+        " let g:airline_right_sep = '◀'
         " let g:airline_symbols.linenr = '␊'
         " let g:airline_symbols.linenr = '␤'
         " let g:airline_symbols.linenr = '¶'
