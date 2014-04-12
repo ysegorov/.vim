@@ -147,18 +147,176 @@
 
     set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
 
+    let g:changelog_username = $USER
+    let mapleader = ","
+    let maplocalleader = " "
 
-    set statusline=
-    set statusline+=%7*\[%n]                                  "buffernr
-    set statusline+=%1*\ %<%F\                                "File+path
-    set statusline+=%2*\ %y\                                  "FileType
-    set statusline+=%3*\ %{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
-    set statusline+=%3*\ %{(&bomb?\",BOM\":\"\")}\            "Encoding2
-    set statusline+=%4*\ %{&ff}\                              "FileFormat (dos/unix..) 
-    set statusline+=%5*\ %{&spelllang}\                       "Spellanguage?
-    set statusline+=%8*\ %=\ row:%l/%L\ (%03p%%)\             "Rownumber/total (%)
-    set statusline+=%9*\ col:%03c\                            "Colnr
-    set statusline+=%0*\ \ %m%r%w\ %P\ \                      "Modified? Readonly? Top/bot.
+    " solarized color scheme - for gui
+    NeoBundle 'altercation/vim-colors-solarized'
+
+    " Color{{{
+        " set 256 colors
+        set t_Co=256
+        set bg=dark
+        " color xoria256
+        " color jellybeans
+        let g:solarized_italic=0
+        let g:solarized_bold=0
+        color solarized
+        " color jellybeans
+        " let g:jellybeans_background_color_256 = 234
+    " }}}
+
+
+    " Console cursor: {{{
+        if &term =~ "xterm\\|rxvt"
+        " use an orange cursor in insert mode
+        let &t_SI = "\<Esc>]12;orange\x7"
+        " use a red cursor otherwise
+        let &t_EI = "\<Esc>]12;red\x7"
+        silent !echo -ne "\033]12;red\007"
+        " reset cursor when vim exits
+        autocmd VimLeave * silent !echo -ne "\033]112\007"
+        " use \003]12;gray\007 for gnome-terminal
+        endif
+        if &term =~ '^xterm'
+        " solid underscore
+        let &t_SI .= "\<Esc>[4 q"
+        " solid block
+        let &t_EI .= "\<Esc>[2 q"
+        " 1 or 0 -> blinking block
+        " 3 -> blinking underscore
+        " Recent versions of xterm (282 or above) also support
+        " 5 -> blinking vertical bar
+        " 6 -> solid vertical bar
+        endif
+    " }}}
+
+    " Gui cursor: {{{
+        set gcr=a:block
+
+        " mode aware cursors
+        set gcr+=o:hor50-Cursor
+        set gcr+=n:Cursor
+        set gcr+=i-ci-sm:InsertCursor
+        set gcr+=r-cr:ReplaceCursor-hor20
+        set gcr+=c:CommandCursor
+        set gcr+=v-ve:VisualCursor
+
+        set gcr+=a:blinkon0
+
+        hi InsertCursor  ctermfg=15 guifg=#fdf6e3 ctermbg=37  guibg=#2aa198
+        hi VisualCursor  ctermfg=15 guifg=#fdf6e3 ctermbg=125 guibg=#d33682
+        hi ReplaceCursor ctermfg=15 guifg=#fdf6e3 ctermbg=65  guibg=#dc322f
+        " hi CommandCursor ctermfg=15 guifg=#fdf6e3 ctermbg=166 guibg=#cb4b16
+    " }}}
+
+    " status line
+    " set statusline=
+    " set statusline+=%7*\[%n]                                  "buffernr
+    " set statusline+=%1*\ %<%F\                                "File+path
+    " set statusline+=%2*\ %y\                                  "FileType
+    " set statusline+=%3*\ %{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
+    " set statusline+=%3*\ %{(&bomb?\",BOM\":\"\")}\            "Encoding2
+    " set statusline+=%4*\ %{&ff}\                              "FileFormat (dos/unix..)
+    " set statusline+=%5*\ %{&spelllang}\                       "Spellanguage?
+    " set statusline+=%8*\ %=\ row:%l/%L\ (%03p%%)\             "Rownumber/total (%)
+    " set statusline+=%9*\ col:%03c\                            "Colnr
+    " set statusline+=%0*\ \ %m%r%w\ %P\ \                      "Modified? Readonly? Top/bot.
+
+    "
+    " https://github.com/blaenk/dots/blob/master/vim/.vimrc
+    "
+    " Status Line: {{{
+
+    " Status Function: {{{2
+    function! Status(winnr)
+        let stat = ''
+        let active = winnr() == a:winnr
+        let buffer = winbufnr(a:winnr)
+
+        let modified = getbufvar(buffer, '&modified')
+        let readonly = getbufvar(buffer, '&ro')
+        let fname = bufname(buffer)
+
+        function! Color(active, num, content)
+            if a:active
+            return '%' . a:num . '*' . a:content . '%*'
+            else
+            return a:content
+            endif
+        endfunction
+
+        " column
+        let stat .= '%1*' . (col(".") / 100 >= 1 ? '%v ' : ' %2v ') . '%*'
+
+        " file
+        let stat .= Color(active, 4, active ? ' »' : ' «')
+        let stat .= ' %<'
+
+        if fname == '__Gundo__'
+            let stat .= 'Gundo'
+        elseif fname == '__Gundo_Preview__'
+            let stat .= 'Gundo Preview'
+        else
+            let stat .= '%f'
+        endif
+
+        let stat .= ' ' . Color(active, 4, active ? '«' : '»')
+
+        " file modified
+        let stat .= Color(active, 2, modified ? ' +' : '')
+
+        " read only
+        let stat .= Color(active, 2, readonly ? ' ‼' : '')
+
+        " paste
+        if active && &paste
+            let stat .= ' %2*' . 'P' . '%*'
+        endif
+
+        " right side
+        let stat .= '%='
+
+        " git branch
+        if exists('*fugitive#head')
+            let head = fugitive#head()
+
+            if empty(head) && exists('*fugitive#detect') && !exists('b:git_dir')
+            call fugitive#detect(getcwd())
+            let head = fugitive#head()
+            endif
+        endif
+
+        if !empty(head)
+            let stat .= Color(active, 3, ' ← ') . head . ' '
+        endif
+
+        return stat
+        endfunction
+    " }}}
+
+    " Status AutoCMD: {{{
+        function! SetStatus()
+            for nr in range(1, winnr('$'))
+                call setwinvar(nr, '&statusline', '%!Status('.nr.')')
+            endfor
+        endfunction
+
+        augroup status
+            autocmd!
+            autocmd VimEnter,WinEnter,BufWinEnter,BufUnload * call SetStatus()
+        augroup END
+    " }}}
+
+    " Status Colors: {{{
+        hi User1 ctermfg=33  guifg=#268bd2  ctermbg=15 guibg=#fdf6e3 gui=bold
+        hi User2 ctermfg=125 guifg=#d33682  ctermbg=7  guibg=#eee8d5 gui=bold
+        hi User3 ctermfg=64  guifg=#719e07  ctermbg=7  guibg=#eee8d5 gui=bold
+        hi User4 ctermfg=37  guifg=#2aa198  ctermbg=7  guibg=#eee8d5 gui=bold
+    " }}}
+
+    " }}}
 
 
     " Undo
@@ -182,18 +340,6 @@
         set clipboard+=unnamed     " enable x-clipboard
     endif
 
-    " Term
-    set t_Co=256            " set 256 colors
-
-    let g:changelog_username = $USER
-    let mapleader = ","
-    let maplocalleader = " "
-
-    " Color themes
-    set bg=dark
-    " color xoria256
-    color jellybeans
-    let g:jellybeans_background_color_256 = 234
 
     " Open help in a vsplit rather than a split
     command! -nargs=? -complete=help Help :vertical help <args>
@@ -201,7 +347,10 @@
 
     " Some gui settings
     if has("gui_running")
-        set guioptions=agimP
+        set guioptions=agiP
+        set guioptions-=m
+        set guioptions-=T
+        set guioptions-=rL
         set guifont=Ubuntu\ Mono\ 8
     endif
 
@@ -585,14 +734,8 @@
     NeoBundleLazy 'othree/html5.vim', {'autoload':
         \ {'filetypes': ['html', 'xhttml', 'css']}}
 
-    NeoBundleLazy 'mattn/emmet-vim', {'autoload':
-        \ {'filetypes': ['html', 'xhttml', 'css', 'xml', 'xls', 'markdown']}}
-
     " the_silver_searcher aka ag
     NeoBundle 'rking/ag.vim'
-
-    " obvious mode
-    NeoBundle 'vim-scripts/Obvious-Mode'
 
     " NERDTree {{{
     " ========
@@ -619,16 +762,6 @@
 
         nnoremap <silent> <leader>t :NERDTreeToggle<CR>
         nnoremap <silent> <leader>f :NERDTreeFind<CR>
-
-    " }}}
-
-    " NERDCommenter {{{
-    " =============
-
-        " Vim plugin for intensely orgasmic commenting
-        " NeoBundle 'scrooloose/nerdcommenter'
-
-        " let NERDSpaceDelims = 1
 
     " }}}
 
@@ -670,82 +803,14 @@
         let g:ctrlp_clear_cache_on_exit = 1
         let g:ctrlp_match_window_reversed = 0
         let g:ctrlp_max_height = 20
+        if executable('ag')
+            set grepprg=ag\ -nogroup\ --nocolor
+            let g:ctrlp_user_command = 'ag %s -l --hidden --nocolor --ignore-dir .git --ignore-dir .hg -g ""'
+            let g:ctrlp_use_caching = 0
+        endif
 
     " }}}
 
-    " Unite {{{
-    " =====
-
-        " NeoBundle "Shougo/unite.vim"
-
-        " NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}}
-
-        " NeoBundleLazy 'Shougo/unite-session', {'autoload':{'unite_sources':'session', 'commands': ['UniteSessionSave', 'UniteSessionLoad']}}
-
-        " NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources': ['quickfix', 'location_list']}}
-
-        " NeoBundleLazy 'thinca/vim-unite-history', { 'autoload' : { 'unite_sources' : ['history/command', 'history/search']}}
-
-        " NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources': 'colorscheme'}}
-
-        " NeoBundleLazy 'tsukkee/unite-help', {'autoload':{'unite_sources':'help'}}
-
-        " NeoBundleLazy 'klen/unite-radio.vim', {'autoload':{'unite_sources':'radio'}}
-
-        " source $HOME/.vim/unite.vim
-
-
-    " }}}
-
-
-    " Powerline {{{
-    " =======
-
-      "  NeoBundle "Lokaltog/powerline", {'rtp': 'powerline/bindings/vim/'}
-
-    " }}}
-
-
-    " Airline {{{
-    " =======
-
-        " lean & mean statusline for vim that's light as air
-        " NeoBundle 'bling/vim-airline'
-
-        " let g:airline_powerline_fonts=1
-
-        " let g:airline_detect_iminsert = 1
-        " let g:airline_exclude_preview = 1
-        " let g:airline_theme = 'wombat'
-
-        " if !exists('g:airline_symbols')
-        "     let g:airline_symbols = {}
-        " endif
-
-        " unicode symbols
-        " let g:airline_left_sep = '»'
-        " let g:airline_right_sep = '«'
-        " let g:airline_left_sep = '▶'
-        " let g:airline_right_sep = '◀'
-        " let g:airline_symbols.linenr = '␊'
-        " let g:airline_symbols.linenr = '␤'
-        " let g:airline_symbols.linenr = '¶'
-        " let g:airline_symbols.branch = '⎇'
-        " let g:airline_symbols.paste = 'ρ'
-        " let g:airline_symbols.paste = 'Þ'
-        " let g:airline_symbols.paste = '∥'
-        " let g:airline_symbols.whitespace = 'Ξ'
-
-        " let g:airline#extensions#tabline#enabled = 1
-
-        " let g:airline#extensions#whitespace#enabled = 1
-        " let g:airline#extensions#whitespace#symbol = '!'
-        " let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing' ]
-        " let g:airline#extensions#whitespace#show_message = 1
-        " let g:airline#extensions#whitespace#trailing_format = '!ts[%s]'
-        " let g:airline#extensions#whitespace#mixed_indent_format = '!indent[%s]'
-
-    " }}}
 
     " TagBar {{{
     " ======
@@ -770,25 +835,6 @@
 
     " }}}
 
-    " Color {{{
-    "
-        " NeoBundle 'jonathanfilip/vim-lucius'
-        " set bg=dark
-        " color lucius
-        " map <F5> :call ToggleBg()<CR>
-        " function! ToggleBg()
-        "     if &background == 'dark'
-        "         set bg=light
-        "     else
-        "         set bg=dark
-        "     endif
-        " endfunc
-
-        " NeoBundle 'w0ng/vim-hybrid'
-        " let g:hybrid_use_Xresources = 0
-        " color hybrid
-
-    " }}}
 
     " Startify {{{
     " ========
@@ -839,22 +885,6 @@
 
     " }}}
 
-    " Fakeclip {{{
-    " ========
-
-        " NeoBundle "unphased/vim-fakeclip"
-
-    " }}}
-
-    " JSMode {{{
-    " ========
-
-        " NeoBundle "klen/vim-jsmode"
-
-        " let g:jsmode_lint_cwindow = 0
-
-    " }}}
-
     " Signify {{{
     " ========
 
@@ -872,21 +902,6 @@
 
     " }}}
 
-    " VimSpec {{{
-    " =======
-
-        " Testing framework for Vim script
-        " NeoBundle 'kana/vim-vspec'
-
-    " }}}
-
-    " git-slides {{{
-    " ==========
-
-        " Testing framework for Vim script
-        " NeoBundle 'gelisam/git-slides'
-
-    " }}}
 
     " Neocomplete {{{
     " ==========
