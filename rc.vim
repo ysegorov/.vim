@@ -714,6 +714,9 @@
     " quoting/parenthesizing made simple
     NeoBundle 'tpope/vim-surround'
 
+    " press ga on a character to reveal its representation
+    NeoBundle 'tpope/vim-characterize'
+
     " vimscript for gist
     NeoBundle 'mattn/webapi-vim'
     NeoBundle 'mattn/gist-vim'
