@@ -132,8 +132,10 @@
     set wildignore+=*.jpg,*.png,*.gif,*.pdf,*.jpeg,*.tiff
     set wildignore+=*.odt,*.ods,*.zip,*.bz2,*.gz,*.tgz,*.tbz2,*.7z,*.z
     set wildignore+=*.doc,*.xls,*.xlsx,*.docx
-    set wildignore+=eggs/**
-    set wildignore+=*.egg-info/**
+    set wildignore+=eggs
+    set wildignore+=*.egg-info
+    set wildignore+=node_modules
+    set wildignore+=bower_components
 
     " Edit
     set backspace=indent,eol,start  " Allow backspace to remove indents, newlines and old tex"
