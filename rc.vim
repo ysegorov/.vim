@@ -875,6 +875,8 @@
         let g:pymode_rope = 0
         let g:pymode_lint_cwindow = 0
 
+        au BufWritePost *.py PymodeLint
+
     " }}}
 
     " WIKI {{{
@@ -976,6 +978,19 @@
 
         let g:colorv_cache_file=$HOME.'/.cache/vim/vim_colorv_cache'
         let g:colorv_cache_fav=$HOME.'/.cache/vim/vim_colorv_cache_fav'
+
+    " }}}
+
+    " Syntastic {{{
+    " ==========
+
+        NeoBundle 'scrooloose/syntastic.git'
+
+        let g:syntastic_error_symbol = 'EE'
+        let g:syntastic_warning_symbol = 'WW'
+        let g:syntastic_auto_loc_list = 1
+        let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
+        let g:syntastic_ignore_files = ['\.py$']
 
     " }}}
 
