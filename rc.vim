@@ -946,7 +946,7 @@
     " }}}
 
 
-    " Neocomplete {{{
+    "  {{{
     " ==========
 
         " Enable omni completion.
@@ -1019,11 +1019,11 @@
     " ==============
     " yaourt -S clang
 
-        NeoBundle 'Valloric/YouCompleteMe', {
-            \ 'build' : {
-                \ 'unix' : './install.sh --clang-completer --system-libclang'
-            \ },
-        \ }
+        " NeoBundle 'Valloric/YouCompleteMe', {
+        "     \ 'build' : {
+        "         \ 'unix' : './install.sh --clang-completer --system-libclang'
+        "     \ },
+        " \ }
 
     " }}}
 
