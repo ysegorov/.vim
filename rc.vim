@@ -813,7 +813,13 @@
         "     let g:ctrlp_user_command = 'ag %s -l --hidden --nocolor --ignore-dir .git --ignore-dir .hg -g ""'
         "     let g:ctrlp_use_caching = 0
         " endif
-
+        let g:ctrlp_user_command = {
+            \ 'types': {
+                \ 1: ['.git', 'cd %s && git ls-files'],
+                \ 2: ['.hg', 'hg --cwd %s status -numac -I . $(hg root)'],
+            \ },
+            \ 'fallback': 'find %s -type f'
+        \ }
     " }}}
 
 
