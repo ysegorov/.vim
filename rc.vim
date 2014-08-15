@@ -556,8 +556,8 @@
     " ------------
         " https://github.com/sheerun/dotfiles/blob/master/vimrc
         " nnoremap <Leader>o <C-^>
-        nnoremap <CR> G
-        nnoremap <BS> gg
+        " nnoremap <CR> G
+        " nnoremap <BS> gg
 
         vmap <Leader>y "+y
         vmap <Leader>d "+d
