@@ -150,8 +150,8 @@
     set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
 
     let g:changelog_username = $USER
-    let mapleader = ","
-    let maplocalleader = " "
+    let mapleader = "\<Space>"
+    " let maplocalleader = " "
 
     " solarized color scheme - for gui
     NeoBundle 'altercation/vim-colors-solarized'
@@ -380,13 +380,13 @@
 " ==========
 
     " Omni and dict completition
-    fun! rc#AddWrapper() "{{{
-        if exists('&omnifunc') && &omnifunc != ''
-            return "\<C-X>\<C-o>\<C-p>"
-        else
-            return "\<C-N>"
-        endif
-    endfun "}}}
+    " fun! rc#AddWrapper() "{{{
+    "     if exists('&omnifunc') && &omnifunc != ''
+    "         return "\<C-X>\<C-o>\<C-p>"
+    "     else
+    "         return "\<C-N>"
+    "     endif
+    " endfun "}}}
 
     " Recursive vimgrep
     fun! rc#RGrep() "{{{
@@ -524,17 +524,25 @@
     " ------------
 
         " Omni and dict completition on space
-        inoremap <Nul> <C-R>=rc#AddWrapper()<CR>
-        inoremap <C-Space> <C-R>=rc#AddWrapper()<CR>
+        " inoremap <Nul> <C-R>=rc#AddWrapper()<CR>
+        " inoremap <C-Space> <C-R>=rc#AddWrapper()<CR>
 
         " emacs style jump to end of line
-        inoremap <C-E> <C-o>A
-        inoremap <C-A> <C-o>I
+        " inoremap <C-E> <C-o>A
+        " inoremap <C-A> <C-o>I
 
         " F2 - быстрое сохранение
         nmap <F2> :w<CR>
         vmap <F2> <esc>:w<CR>i
         imap <F2> <esc>:w<CR>i
+
+        " F10 - закрыть буфер
+        nmap <F10> :bd<CR>
+        vmap <F10> <esc>:bd<CR>
+        imap <F10> <esc>:bd<CR>
+
+    " List buffers
+        nnoremap <F5> :buffers<CR>:buffer<Space>
 
     " {<CR>
         " auto complete {}
@@ -546,6 +554,23 @@
 
     " Normal mode {{{
     " ------------
+        " https://github.com/sheerun/dotfiles/blob/master/vimrc
+        " nnoremap <Leader>o <C-^>
+        nnoremap <CR> G
+        nnoremap <BS> gg
+
+        vmap <Leader>y "+y
+        vmap <Leader>d "+d
+        nmap <Leader>p "+p
+        nmap <Leader>P "+P
+        vmap <Leader>p "+p
+        vmap <Leader>P "+P
+        " nmap <Leader><Leader> V
+
+        vnoremap <silent> y y`]
+        vnoremap <silent> p p`]
+        nnoremap <silent> p p`]
+        " endfor sheerun
 
         " Map ; to <Shift>;
         nnoremap ; :
@@ -563,13 +588,13 @@
         noremap \ za
 
         " Toggle paste mode
-        noremap <silent> <Leader>p :set invpaste<CR>:set paste?<CR>
+        " noremap <silent> <Leader>p :set invpaste<CR>:set paste?<CR>
 
         " Not jump on star, only highlight
         nnoremap * *N
 
         " Drop hightlight search result
-        noremap <leader><space> :nohlsearch<CR>
+        noremap <leader><leader> :nohlsearch<CR>
 
         " Fast scrool
         nnoremap <C-e> 3<C-e>
@@ -676,10 +701,10 @@
     " ------------
 
         " Allow command line editing like emacs
-        cnoremap <C-A>      <Home>
-        cnoremap <C-E>      <End>
-        cnoremap <C-N>      <Down>
-        cnoremap <C-P>      <Up>
+        " cnoremap <C-A>      <Home>
+        " cnoremap <C-E>      <End>
+        " cnoremap <C-N>      <Down>
+        " cnoremap <C-P>      <Up>
 
         " Write as sudo
         command! W %!sudo tee > /dev/null %
@@ -718,13 +743,13 @@
     NeoBundle 'tpope/vim-characterize'
 
     " vimscript for gist
-    NeoBundle 'mattn/webapi-vim'
-    NeoBundle 'mattn/gist-vim'
+    " NeoBundle 'mattn/webapi-vim'
+    " NeoBundle 'mattn/gist-vim'
 
     " Support for SALT
-    NeoBundle 'saltstack/salt-vim'
+    " NeoBundle 'saltstack/salt-vim'
 
-    NeoBundle 'NsLib/vim-DoxygenToolkit-mod'
+    " NeoBundle 'NsLib/vim-DoxygenToolkit-mod'
 
     " Disable plugins for LargeFile
     NeoBundle 'LargeFile'
@@ -740,33 +765,38 @@
         \ {'filetypes': ['html', 'xhttml', 'css']}}
 
     " the_silver_searcher aka ag
-    NeoBundle 'rking/ag.vim'
+    " NeoBundle 'rking/ag.vim'
+
+    " expand region
+    NeoBundle 'terryma/vim-expand-region'
+    vmap v <Plug>(expand_region_expand)
+    vmap <C-v> <Plug>(expand_region_shrink)
 
     " NERDTree {{{
     " ========
 
         " A tree explorer plugin for vim.
-        NeoBundle 'scrooloose/nerdtree'
+        " NeoBundle 'scrooloose/nerdtree'
 
-        let NERDTreeWinSize = 30
-        let NERDTreeShowBookmarks=1
-        let NERDTreeChDirMode=0
-        let NERDTreeQuitOnOpen=1
-        let NERDTreeShowHidden=1
-        let NERDTreeKeepTreeInNewTab=0
-        let NERDTreeMinimalUI=1 " Disables display of the 'Bookmarks' label and 'Press ? for help' text.
-        let NERDTreeDirArrows=1 " Tells the NERD tree to use arrows instead of + ~ chars when displaying directories.
-        let NERDTreeBookmarksFile= $HOME . '/.cache/.vim/.NERDTreeBookmarks'
+        " let NERDTreeWinSize = 30
+        " let NERDTreeShowBookmarks=1
+        " let NERDTreeChDirMode=0
+        " let NERDTreeQuitOnOpen=1
+        " let NERDTreeShowHidden=1
+        " let NERDTreeKeepTreeInNewTab=0
+        " let NERDTreeMinimalUI=1 " Disables display of the 'Bookmarks' label and 'Press ? for help' text.
+        " let NERDTreeDirArrows=1 " Tells the NERD tree to use arrows instead of + ~ chars when displaying directories.
+        " let NERDTreeBookmarksFile= $HOME . '/.cache/.vim/.NERDTreeBookmarks'
 
-        " files/dirs to ignore in NERDTree (mostly the same as my svn ignores)
-        let NERDTreeIgnore=['\~$', '\.AppleDouble$', '\.beam$', 'build$',
-            \'dist$', '\.DS_Store$', '\.egg$', '\.egg-info$', '\.la$',
-            \'\.lo$', '\.\~lock.*#$', '\.mo$', '\.o$', '\.pt.cache$',
-            \'\.pyc$', '\.pyo$', '__pycache__$', '\.Python$', '\..*.rej$',
-            \'\.rej$', '\.ropeproject$', '\.svn$', '\.tags$' ]
+        " " files/dirs to ignore in NERDTree (mostly the same as my svn ignores)
+        " let NERDTreeIgnore=['\~$', '\.AppleDouble$', '\.beam$', 'build$',
+        "     \'dist$', '\.DS_Store$', '\.egg$', '\.egg-info$', '\.la$',
+        "     \'\.lo$', '\.\~lock.*#$', '\.mo$', '\.o$', '\.pt.cache$',
+        "     \'\.pyc$', '\.pyo$', '__pycache__$', '\.Python$', '\..*.rej$',
+        "     \'\.rej$', '\.ropeproject$', '\.svn$', '\.tags$' ]
 
-        nnoremap <silent> <leader>t :NERDTreeToggle<CR>
-        nnoremap <silent> <leader>f :NERDTreeFind<CR>
+        " nnoremap <silent> <leader>t :NERDTreeToggle<CR>
+        " nnoremap <silent> <leader>f :NERDTreeFind<CR>
 
     " }}}
 
@@ -827,21 +857,21 @@
     " ======
 
         " Vim plugin that displays tags in a window, ordered by class etc.
-        NeoBundle "majutsushi/tagbar"
+        " NeoBundle "majutsushi/tagbar"
 
-        let g:tagbar_width = 30
-        let g:tagbar_foldlevel = 1
-        let g:tagbar_type_rst = {
-            \ 'ctagstype': 'rst',
-            \ 'kinds': [ 'r:references', 'h:headers' ],
-            \ 'sort': 0,
-            \ 'sro': '..',
-            \ 'kind2scope': { 'h': 'header' },
-            \ 'scope2kind': { 'header': 'h' }
-        \ }
+        " let g:tagbar_width = 30
+        " let g:tagbar_foldlevel = 1
+        " let g:tagbar_type_rst = {
+        "     \ 'ctagstype': 'rst',
+        "     \ 'kinds': [ 'r:references', 'h:headers' ],
+        "     \ 'sort': 0,
+        "     \ 'sro': '..',
+        "     \ 'kind2scope': { 'h': 'header' },
+        "     \ 'scope2kind': { 'header': 'h' }
+        " \ }
 
-        " Toggle tagbar
-        nnoremap <silent> <F3> :TagbarToggle<CR>
+        " " Toggle tagbar
+        " nnoremap <silent> <F3> :TagbarToggle<CR>
 
 
     " }}}
@@ -888,13 +918,13 @@
     " WIKI {{{
     " ====
 
-        NeoBundle "vimwiki/vimwiki", "dev"
+        " NeoBundle "vimwiki/vimwiki", "dev"
 
-        let g:vimwiki_folding = 1
-        let g:vimwiki_fold_lists = 1
-        let g:vimwiki_list = [{"path" : "~/Dropbox/wiki"}, {"path" : "~/Dropbox/wiki/english"}]
+        " let g:vimwiki_folding = 1
+        " let g:vimwiki_fold_lists = 1
+        " let g:vimwiki_list = [{"path" : "~/Dropbox/wiki"}, {"path" : "~/Dropbox/wiki/english"}]
 
-        nmap <Leader>wv <Plug>VimwikiIndex
+        " nmap <Leader>wv <Plug>VimwikiIndex
 
     " }}}
 
@@ -919,17 +949,6 @@
     " Neocomplete {{{
     " ==========
 
-        " NeoBundle 'Shougo/neocomplete.vim'
-
-        " let g:neocomplete#enable_at_startup = 0
-        " let g:neocomplete#enable_smart_case = 1
-        " let g:neocomplete#enable_auto_select = 1
-        " let g:neocomplete#enable_refresh_always = 1
-        " let g:neocomplete#max_list = 30
-        " let g:neocomplete#min_keyword_length = 1
-        " let g:neocomplete#sources#syntax#min_keyword_length = 1
-        " let g:neocomplete#data_directory = $HOME.'/.cache/vim/neocomplete'
-
         " Enable omni completion.
         autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
         autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -944,10 +963,6 @@
     " ==========
 
         NeoBundleLazy 'vim-scripts/JSON.vim', {'autoload': {'filetypes': ['json']}}
-        " NeoBundleLazy 'vim-scripts/po.vim--gray', {'autoload': {'filetypes': ['po']}}
-        " NeoBundleLazy 'joedicastro/vim-pentadactyl', {
-        "            \ 'autoload': {'filetypes': ['pentadactyl']}}
-        " NeoBundle 'scrooloose/syntastic'
 
     " }}}
 
