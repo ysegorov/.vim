@@ -150,8 +150,8 @@
     set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
 
     let g:changelog_username = $USER
-    let mapleader = "\<Space>"
-    " let maplocalleader = " "
+    let mapleader = ","
+    let maplocalleader = " "
 
     " solarized color scheme - for gui
     NeoBundle 'altercation/vim-colors-solarized'
@@ -659,7 +659,7 @@
         nmap <S-Tab> gT
 
         " Fix Trailing White Space
-        map <leader>ts :%s/\s\+$//e<CR>
+        " map <leader>ts :%s/\s\+$//e<CR>
 
         " Keymap switch <C-F>
         " cnoremap <silent> <C-F> <C-^>
