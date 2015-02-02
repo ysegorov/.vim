@@ -497,6 +497,7 @@
                 au BufNewFile,BufRead *.json setf javascript
                 au BufNewFile,BufRead *.handlebars,*.mustache setf mustache
                 au BufNewFile,BufRead *.less setf less
+                au BufNewFile,BufRead *.rst setlocal textwidth=79
                 au BufNewFile,BufRead *.py,*.js,*.css,*.less,*.sass,*.scss,*.html,*.handlebars,*.rst,*.txt setl colorcolumn=80
                 autocmd FileType python,javascript,css autocmd BufWritePre <buffer> :%s/\s\+$//e
 
