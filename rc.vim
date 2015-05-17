@@ -980,6 +980,7 @@
         augroup plugin_commentary
             au!
             au FileType python setlocal commentstring=#%s
+            au FileType mustache setlocal commentstring=<!--\ %s\ -->
             au FileType htmldjango setlocal commentstring={#\ %s\ #}
             au FileType puppet setlocal commentstring=#\ %s
         augroup END
