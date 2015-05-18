@@ -497,10 +497,11 @@
                 au BufNewFile,BufRead *.json setf javascript
                 au BufNewFile,BufRead *.handlebars,*.mustache setf mustache
                 au BufNewFile,BufRead *.less setf less
+                au BufNewFile,BufRead *.rs setlocal ft=rust
                 au BufNewFile,BufRead *.rst setlocal textwidth=79
                 au BufNewFile,BufRead *.md setlocal textwidth=79
                 au BufNewFile,BufRead *.css setlocal filetype=scss
-                au BufNewFile,BufRead *.py,*.js,*.css,*.less,*.sass,*.scss,*.html,*.handlebars,*.rst,*.txt,*.md setl colorcolumn=80
+                au BufNewFile,BufRead *.py,*.js,*.css,*.less,*.sass,*.scss,*.html,*.handlebars,*.rst,*.txt,*.md,*.rs setl colorcolumn=80
                 autocmd FileType python,javascript,css autocmd BufWritePre <buffer> :%s/\s\+$//e
 
             " }}}
@@ -1016,6 +1017,13 @@
         let g:syntastic_auto_loc_list = 2
         let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
         let g:syntastic_ignore_files = ['\.py$']
+
+    " }}}
+
+    " Rust {{{
+    " =========
+
+        NeoBundle 'rust-lang/rust.vim'
 
     " }}}
 
