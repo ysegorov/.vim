@@ -746,6 +746,9 @@
     " press ga on a character to reveal its representation
     NeoBundle 'tpope/vim-characterize'
 
+    " Ack for vim
+    NeoBundle 'mileszs/ack.vim'
+
     " vimscript for gist
     " NeoBundle 'mattn/webapi-vim'
     " NeoBundle 'mattn/gist-vim'
