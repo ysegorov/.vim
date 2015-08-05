@@ -1034,11 +1034,35 @@
     " ==============
     " yaourt -S clang
 
-        " NeoBundle 'Valloric/YouCompleteMe', {
-        "     \ 'build' : {
-        "         \ 'unix' : './install.sh --clang-completer --system-libclang'
-        "     \ },
-        " \ }
+        NeoBundle 'Valloric/YouCompleteMe', {
+            \ 'build' : {
+                \ 'unix' : './install.sh --clang-completer --system-libclang'
+            \ },
+        \ }
+
+    " }}}
+
+    " TernJS {{{
+    " ==============
+
+        NeoBundle 'marijnh/tern_for_vim', {
+            \ 'build': {
+                \ 'unix': 'npm install'
+            \ }
+        \ }
+    " }}}
+
+    " Vim Node {{{
+    " ==============
+
+        NeoBundle 'moll/vim-node'
+
+    " }}}
+
+    " Mango colorscheme {{{
+    " ==============
+
+        " NeoBundle 'goatslacker/mango.vim'
 
     " }}}
 
