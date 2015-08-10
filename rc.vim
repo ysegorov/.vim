@@ -1066,6 +1066,20 @@
 
     " }}}
 
+    " Javascript syntax {{{
+    " =======================
+
+        NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
+
+    " }}}
+
+    " Javascript libraries syntax {{{
+    " ================================
+
+        NeoBundle 'othree/javascript-libraries-syntax.vim'
+
+    " }}}
+
 " }}}
 
 
