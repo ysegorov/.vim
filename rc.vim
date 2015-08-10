@@ -783,27 +783,27 @@
     " ========
 
         " A tree explorer plugin for vim.
-        " NeoBundle 'scrooloose/nerdtree'
+        NeoBundle 'scrooloose/nerdtree'
 
-        " let NERDTreeWinSize = 30
-        " let NERDTreeShowBookmarks=1
-        " let NERDTreeChDirMode=0
-        " let NERDTreeQuitOnOpen=1
-        " let NERDTreeShowHidden=1
-        " let NERDTreeKeepTreeInNewTab=0
-        " let NERDTreeMinimalUI=1 " Disables display of the 'Bookmarks' label and 'Press ? for help' text.
-        " let NERDTreeDirArrows=1 " Tells the NERD tree to use arrows instead of + ~ chars when displaying directories.
-        " let NERDTreeBookmarksFile= $HOME . '/.cache/.vim/.NERDTreeBookmarks'
+        let NERDTreeWinSize = 30
+        let NERDTreeShowBookmarks=1
+        let NERDTreeChDirMode=0
+        let NERDTreeQuitOnOpen=1
+        let NERDTreeShowHidden=1
+        let NERDTreeKeepTreeInNewTab=0
+        let NERDTreeMinimalUI=1 " Disables display of the 'Bookmarks' label and 'Press ? for help' text.
+        let NERDTreeDirArrows=1 " Tells the NERD tree to use arrows instead of + ~ chars when displaying directories.
+        let NERDTreeBookmarksFile= $HOME . '/.cache/.vim/.NERDTreeBookmarks'
 
-        " " files/dirs to ignore in NERDTree (mostly the same as my svn ignores)
-        " let NERDTreeIgnore=['\~$', '\.AppleDouble$', '\.beam$', 'build$',
-        "     \'dist$', '\.DS_Store$', '\.egg$', '\.egg-info$', '\.la$',
-        "     \'\.lo$', '\.\~lock.*#$', '\.mo$', '\.o$', '\.pt.cache$',
-        "     \'\.pyc$', '\.pyo$', '__pycache__$', '\.Python$', '\..*.rej$',
-        "     \'\.rej$', '\.ropeproject$', '\.svn$', '\.tags$' ]
+        " files/dirs to ignore in NERDTree (mostly the same as my svn ignores)
+        let NERDTreeIgnore=['\~$', '\.AppleDouble$', '\.beam$', 'build$',
+            \'dist$', '\.DS_Store$', '\.egg$', '\.egg-info$', '\.la$',
+            \'\.lo$', '\.\~lock.*#$', '\.mo$', '\.o$', '\.pt.cache$',
+            \'\.pyc$', '\.pyo$', '__pycache__$', '\.Python$', '\..*.rej$',
+            \'\.rej$', '\.ropeproject$', '\.svn$', '\.tags$' ]
 
-        " nnoremap <silent> <leader>t :NERDTreeToggle<CR>
-        " nnoremap <silent> <leader>f :NERDTreeFind<CR>
+        nnoremap <silent> <leader>t :NERDTreeToggle<CR>
+        nnoremap <silent> <leader>f :NERDTreeFind<CR>
 
     " }}}
 
