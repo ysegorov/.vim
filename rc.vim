@@ -835,7 +835,7 @@
     " CtrlP {{{
     " =====
 
-        NeoBundle "kien/ctrlp.vim"
+        NeoBundle "ctrlpvim/ctrlp.vim"
 
         let g:ctrlp_map = '<c-p>'
         let g:ctrlp_working_path_mode = 'ra'
@@ -849,7 +849,7 @@
         " endif
         let g:ctrlp_user_command = {
             \ 'types': {
-                \ 1: ['.git', 'cd %s && git ls-files'],
+                \ 1: ['.git', 'git --git-dir=%s/.git ls-files -oc --exclude-standard'],
                 \ 2: ['.hg', 'hg --cwd %s status -numac -I . $(hg root)'],
             \ },
             \ 'fallback': 'find %s -type f'
