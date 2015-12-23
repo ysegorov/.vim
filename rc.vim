@@ -746,6 +746,9 @@
     " press ga on a character to reveal its representation
     NeoBundle 'tpope/vim-characterize'
 
+    " Ack for vim
+    NeoBundle 'mileszs/ack.vim'
+
     " vimscript for gist
     " NeoBundle 'mattn/webapi-vim'
     " NeoBundle 'mattn/gist-vim'
@@ -780,27 +783,27 @@
     " ========
 
         " A tree explorer plugin for vim.
-        " NeoBundle 'scrooloose/nerdtree'
+        NeoBundle 'scrooloose/nerdtree'
 
-        " let NERDTreeWinSize = 30
-        " let NERDTreeShowBookmarks=1
-        " let NERDTreeChDirMode=0
-        " let NERDTreeQuitOnOpen=1
-        " let NERDTreeShowHidden=1
-        " let NERDTreeKeepTreeInNewTab=0
-        " let NERDTreeMinimalUI=1 " Disables display of the 'Bookmarks' label and 'Press ? for help' text.
-        " let NERDTreeDirArrows=1 " Tells the NERD tree to use arrows instead of + ~ chars when displaying directories.
-        " let NERDTreeBookmarksFile= $HOME . '/.cache/.vim/.NERDTreeBookmarks'
+        let NERDTreeWinSize = 30
+        let NERDTreeShowBookmarks=1
+        let NERDTreeChDirMode=0
+        let NERDTreeQuitOnOpen=1
+        let NERDTreeShowHidden=1
+        let NERDTreeKeepTreeInNewTab=0
+        let NERDTreeMinimalUI=1 " Disables display of the 'Bookmarks' label and 'Press ? for help' text.
+        let NERDTreeDirArrows=1 " Tells the NERD tree to use arrows instead of + ~ chars when displaying directories.
+        let NERDTreeBookmarksFile= $HOME . '/.cache/.vim/.NERDTreeBookmarks'
 
-        " " files/dirs to ignore in NERDTree (mostly the same as my svn ignores)
-        " let NERDTreeIgnore=['\~$', '\.AppleDouble$', '\.beam$', 'build$',
-        "     \'dist$', '\.DS_Store$', '\.egg$', '\.egg-info$', '\.la$',
-        "     \'\.lo$', '\.\~lock.*#$', '\.mo$', '\.o$', '\.pt.cache$',
-        "     \'\.pyc$', '\.pyo$', '__pycache__$', '\.Python$', '\..*.rej$',
-        "     \'\.rej$', '\.ropeproject$', '\.svn$', '\.tags$' ]
+        " files/dirs to ignore in NERDTree (mostly the same as my svn ignores)
+        let NERDTreeIgnore=['\~$', '\.AppleDouble$', '\.beam$', 'build$',
+            \'dist$', '\.DS_Store$', '\.egg$', '\.egg-info$', '\.la$',
+            \'\.lo$', '\.\~lock.*#$', '\.mo$', '\.o$', '\.pt.cache$',
+            \'\.pyc$', '\.pyo$', '__pycache__$', '\.Python$', '\..*.rej$',
+            \'\.rej$', '\.ropeproject$', '\.svn$', '\.tags$' ]
 
-        " nnoremap <silent> <leader>t :NERDTreeToggle<CR>
-        " nnoremap <silent> <leader>f :NERDTreeFind<CR>
+        nnoremap <silent> <leader>t :NERDTreeToggle<CR>
+        nnoremap <silent> <leader>f :NERDTreeFind<CR>
 
     " }}}
 
@@ -1031,11 +1034,49 @@
     " ==============
     " yaourt -S clang
 
-        " NeoBundle 'Valloric/YouCompleteMe', {
-        "     \ 'build' : {
-        "         \ 'unix' : './install.sh --clang-completer --system-libclang'
-        "     \ },
-        " \ }
+        NeoBundle 'Valloric/YouCompleteMe', {
+            \ 'build' : {
+                \ 'unix' : './install.sh --clang-completer --system-libclang'
+            \ },
+        \ }
+
+    " }}}
+
+    " TernJS {{{
+    " ==============
+
+        NeoBundle 'marijnh/tern_for_vim', {
+            \ 'build': {
+                \ 'unix': 'npm install'
+            \ }
+        \ }
+    " }}}
+
+    " Vim Node {{{
+    " ==============
+
+        NeoBundle 'moll/vim-node'
+
+    " }}}
+
+    " Mango colorscheme {{{
+    " ==============
+
+        " NeoBundle 'goatslacker/mango.vim'
+
+    " }}}
+
+    " Javascript syntax {{{
+    " =======================
+
+        NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
+
+    " }}}
+
+    " Javascript libraries syntax {{{
+    " ================================
+
+        NeoBundle 'othree/javascript-libraries-syntax.vim'
 
     " }}}
 
