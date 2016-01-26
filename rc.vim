@@ -156,15 +156,22 @@
     " solarized color scheme - for gui
     NeoBundle 'altercation/vim-colors-solarized'
 
+    " colorsbox
+    NeoBundle 'mkarmona/colorsbox'
+
+    " zenburn
+    NeoBundle 'jnurmine/Zenburn'
+
     " Color{{{
         " set 256 colors
         set t_Co=256
         set bg=dark
-        " color xoria256
+        color xoria256
+        " color zenburn
         " color jellybeans
-        let g:solarized_italic=0
-        let g:solarized_bold=0
-        color solarized
+        " let g:solarized_italic=0
+        " let g:solarized_bold=0
+        " color solarized
         " color jellybeans
         " let g:jellybeans_background_color_256 = 234
     " }}}
@@ -460,7 +467,9 @@
 
 
         " Use the below highlight group when displaying bad whitespace is desired.
-        highlight BadWhitespace ctermbg=red guibg=red
+        highlight BadWhitespace ctermbg=2 guibg=#800000
+        highlight CursorLine cterm=None ctermbg=235 ctermfg=None guibg=#444444
+        highlight ColorColumn cterm=None ctermbg=235 ctermfg=None guibg=#444444
 
         " Display tabs at the beginning of a line in Python mode as bad.
         au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
@@ -500,7 +509,7 @@
                 au BufNewFile,BufRead *.rs setlocal ft=rust
                 au BufNewFile,BufRead *.rst setlocal textwidth=79
                 au BufNewFile,BufRead *.md setlocal textwidth=79
-                au BufNewFile,BufRead *.css setlocal filetype=scss
+                au BufNewFile,BufRead *.css setlocal filetype=css
                 au BufNewFile,BufRead *.py,*.js,*.css,*.less,*.sass,*.scss,*.html,*.handlebars,*.rst,*.txt,*.md,*.rs setl colorcolumn=80
                 autocmd FileType python,javascript,css,rust autocmd BufWritePre <buffer> :%s/\s\+$//e
 
