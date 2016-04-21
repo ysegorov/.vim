@@ -550,9 +550,9 @@
         imap <F2> <esc>:w<CR>i
 
         " F10 - закрыть буфер
-        nmap <F10> :bd<CR>
-        vmap <F10> <esc>:bd<CR>
-        imap <F10> <esc>:bd<CR>
+        " nmap <F10> :bd<CR>
+        " vmap <F10> <esc>:bd<CR>
+        " imap <F10> <esc>:bd<CR>
 
     " List buffers
         nnoremap <F5> :buffers<CR>:buffer<Space>
@@ -1094,6 +1094,23 @@
     " =========
 
         NeoBundle 'vim-scripts/dbext.vim'
+
+        " let g:dbext_default_profile_'profilename' = 'var=value:var=value:...'
+        let g:dbext_default_type = 'PGSQL'
+        let g:dbext_default_profile_psql = 'type=PGSQL:host=localhost:port=5432:dbname=egorov:user=egorov'
+        let g:dbext_default_profile = 'psql'
+        let g:dbext_default_window_use_horiz = 0
+        let g:dbext_default_window_use_right = 1
+        let g:dbext_default_window_width = 100
+
+        augroup plugin_dbext
+            au!
+            au FileType sql inoremap <F9> <esc>:DBExecSQLUnderCursor<cr>
+            au FileType sql nnoremap <F9> <esc>:DBExecSQLUnderCursor<cr>
+            au FileType sql vnoremap <F9> <esc>:DBExecSQLUnderCursor<cr>
+            " au FileType sql inoremap <C-M> <esc>:DBExecSQLUnderCursor<cr>
+            " au FileType sql nnoremap <C-M> <esc>:DBExecSQLUnderCursor<cr>
+        augroup END
 
     " }}}
     "
