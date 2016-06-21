@@ -22,70 +22,67 @@
             silent call mkdir(g:SESSION_DIR, "p")
         endif
 
-        " Setup Vundle {{{
+        " Setup vim-plug {{{
         " =================
         "
+        if empty(glob('~/.vim/autoload/plug.vim'))
+        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+            \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        autocmd VimEnter * PlugInstall | source $MYVIMRC
+        endif
+
         set nocompatible              " be iMproved, required
-        filetype off                  " required
 
-        " set the runtime path to include Vundle and initialize
-        set rtp+=~/.vim/bundle_ng/Vundle.vim
-        call vundle#begin('~/.vim/bundle_ng/')
-        " alternatively, pass a path where Vundle should install plugins
-        "call vundle#begin('~/some/path/here')
-
-        " let Vundle manage Vundle, required
-        Plugin 'VundleVim/Vundle.vim'
+        call plug#begin('~/.vim/plugged')
 
         " solarized color scheme - for gui
-        Plugin 'altercation/vim-colors-solarized'
+        Plug 'altercation/vim-colors-solarized'
         " colorsbox
-        Plugin 'mkarmona/colorsbox'
+        Plug 'mkarmona/colorsbox'
         " zenburn
-        Plugin 'jnurmine/Zenburn'
+        Plug 'jnurmine/Zenburn'
         " quoting/parenthesizing made simple
-        Plugin 'tpope/vim-surround'
+        Plug 'tpope/vim-surround'
         " press ga on a character to reveal its representation
-        Plugin 'tpope/vim-characterize'
+        Plug 'tpope/vim-characterize'
         " Ack for vim
-        Plugin 'mileszs/ack.vim'
+        Plug 'mileszs/ack.vim'
         " Disable plugins for LargeFile
-        Plugin 'LargeFile'
+        Plug 'LargeFile'
         " HTML/CSS
-        Plugin 'lunaru/vim-less'
-        Plugin 'mustache/vim-mustache-handlebars'
-        Plugin 'othree/html5.vim'
+        Plug 'lunaru/vim-less'
+        Plug 'mustache/vim-mustache-handlebars'
+        Plug 'othree/html5.vim'
         " expand region
-        Plugin 'terryma/vim-expand-region'
+        Plug 'terryma/vim-expand-region'
         " a Git wrapper so awesome, it should be illegal
-        Plugin 'tpope/vim-fugitive'
+        Plug 'tpope/vim-fugitive'
         " Browse Git history
-        Plugin 'gregsexton/gitv'
+        Plug 'gregsexton/gitv'
         " CtrlP
-        Plugin 'ctrlpvim/ctrlp.vim'
+        Plug 'ctrlpvim/ctrlp.vim'
         " Python-mode
-        Plugin 'klen/python-mode'
+        Plug 'klen/python-mode'
         " Signify
-        Plugin 'mhinz/vim-signify'
+        Plug 'mhinz/vim-signify'
         " Toggle comments
-        Plugin 'tpope/vim-commentary'
+        Plug 'tpope/vim-commentary'
         " Syntastic
-        Plugin 'scrooloose/syntastic.git'
+        Plug 'scrooloose/syntastic'
         " Vim Node
-        Plugin 'moll/vim-node'
+        Plug 'moll/vim-node'
         " JSON
-        Plugin 'vim-scripts/JSON.vim'
+        Plug 'vim-scripts/JSON.vim'
         " Javascript syntax
-        Plugin 'jelera/vim-javascript-syntax'
+        Plug 'jelera/vim-javascript-syntax'
         " Javascript libraries syntax
-        Plugin 'othree/javascript-libraries-syntax.vim'
+        Plug 'othree/javascript-libraries-syntax.vim'
         " dbext
-        Plugin 'vim-scripts/dbext.vim'
+        Plug 'vim-scripts/dbext.vim'
+        " elm
+        Plug 'lambdatoast/elm.vim'
 
-        " All of your Plugins must be added before the following line
-        call vundle#end()            " required
-
-        filetype plugin indent on    " required
+        call plug#end()
 
         syntax on
 
@@ -913,6 +910,23 @@
         " au FileType sql inoremap <C-M> <esc>:DBExecSQLUnderCursor<cr>
         " au FileType sql nnoremap <C-M> <esc>:DBExecSQLUnderCursor<cr>
     augroup END
+
+" }}}
+"
+
+
+" elm.vim {{{
+" =========
+
+    nnoremap <leader>el :ElmEvalLine<CR>
+    vnoremap <leader>es :<C-u>ElmEvalSelection<CR>
+    nnoremap <leader>em :ElmMakeCurrentFile<CR>
+
+    " augroup plugin_elm
+    "     au!
+    "     au BufWritePost *.elm ElmMakeCurrentFile
+    "
+    " augroup END
 
 " }}}
 "
