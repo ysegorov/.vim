@@ -35,6 +35,10 @@
 
         call plug#begin('~/.vim/plugged')
 
+        " vim-polyglot
+        Plug 'sheerun/vim-polyglot'
+        " flake8
+        Plug 'nvie/vim-flake8'
         " solarized color scheme - for gui
         Plug 'altercation/vim-colors-solarized'
         " colorsbox
@@ -50,9 +54,9 @@
         " Disable plugins for LargeFile
         Plug 'LargeFile'
         " HTML/CSS
-        Plug 'lunaru/vim-less'
-        Plug 'mustache/vim-mustache-handlebars'
-        Plug 'othree/html5.vim'
+        "Plug 'lunaru/vim-less'
+        "Plug 'mustache/vim-mustache-handlebars'
+        "Plug 'othree/html5.vim'
         " expand region
         Plug 'terryma/vim-expand-region'
         " a Git wrapper so awesome, it should be illegal
@@ -62,25 +66,31 @@
         " CtrlP
         Plug 'ctrlpvim/ctrlp.vim'
         " Python-mode
-        Plug 'klen/python-mode'
+        " Plug 'klen/python-mode'
         " Signify
         Plug 'mhinz/vim-signify'
         " Toggle comments
         Plug 'tpope/vim-commentary'
         " Syntastic
-        Plug 'scrooloose/syntastic'
+        "Plug 'scrooloose/syntastic'
         " Vim Node
-        Plug 'moll/vim-node'
+        "Plug 'moll/vim-node'
         " JSON
-        Plug 'vim-scripts/JSON.vim'
+        "Plug 'vim-scripts/JSON.vim'
         " Javascript syntax
-        Plug 'jelera/vim-javascript-syntax'
+        "Plug 'jelera/vim-javascript-syntax'
         " Javascript libraries syntax
-        Plug 'othree/javascript-libraries-syntax.vim'
+        "Plug 'othree/javascript-libraries-syntax.vim'
         " dbext
         Plug 'vim-scripts/dbext.vim'
         " elm
-        Plug 'lambdatoast/elm.vim'
+        "Plug 'lambdatoast/elm.vim'
+        " PureScript
+        "Plug 'raichoo/purescript-vim'
+        " Elixir
+        "Plug 'elixir-lang/vim-elixir'
+        " gruvbox theme
+        Plug 'morhetz/gruvbox'
 
         call plug#end()
 
@@ -173,6 +183,7 @@
     set wildignore+=eggs
     set wildignore+=*.egg-info
     set wildignore+=node_modules
+    set wildignore+=env
     set wildignore+=bower_components
 
     " Edit
@@ -193,40 +204,50 @@
 
     " Color{{{
         " set 256 colors
-        set t_Co=256
+        " set t_Co=256
+        " set 24 bit colors
+        set termguicolors
         set bg=dark
-        color xoria256
+        let g:gruvbox_bold=0
+        let g:gruvbox_italic=0
+        let g:gruvbox_underline=0
+        let g:gruvbox_undercurl=0
+        let g:gruvbox_contrast_dark="soft"
+        let g:gruvbox_improved_strings=0
+        color gruvbox
+        " color xoria256
         " color zenburn
+        " let g:jellybeans_background_color_256 = 234
         " color jellybeans
         " let g:solarized_italic=0
         " let g:solarized_bold=0
         " color solarized
         " color jellybeans
-        " let g:jellybeans_background_color_256 = 234
     " }}}
 
 
     " Console cursor: {{{
         if &term =~ "xterm\\|rxvt"
-        " use an orange cursor in insert mode
-        let &t_SI = "\<Esc>]12;orange\x7"
-        " use a red cursor otherwise
-        let &t_EI = "\<Esc>]12;red\x7"
-        silent !echo -ne "\033]12;red\007"
-        " reset cursor when vim exits
-        autocmd VimLeave * silent !echo -ne "\033]112\007"
-        " use \003]12;gray\007 for gnome-terminal
+            " use an orange cursor in insert mode
+            let &t_SI = "\<Esc>]12;darkred\x7"
+            let &t_SR = "\<Esc>]12;darkblue\x7"
+            " use a red cursor otherwise
+            let &t_EI = "\<Esc>]12;red\x7"
+            silent !echo -ne "\033]12;red\007"
+            " reset cursor when vim exits
+            autocmd VimLeave * silent !echo -ne "\033]112\007"
+            " use \003]12;gray\007 for gnome-terminal
         endif
         if &term =~ '^xterm'
-        " solid underscore
-        let &t_SI .= "\<Esc>[4 q"
-        " solid block
-        let &t_EI .= "\<Esc>[2 q"
-        " 1 or 0 -> blinking block
-        " 3 -> blinking underscore
-        " Recent versions of xterm (282 or above) also support
-        " 5 -> blinking vertical bar
-        " 6 -> solid vertical bar
+            " solid underscore
+            " let &t_SI .= "\<Esc>[6 q"
+            " solid block
+            let &t_EI .= "\<Esc>[2 q"
+            " 1 or 0 -> blinking block
+            " 3 -> blinking underscore
+            " Recent versions of xterm (282 or above) also support
+            " 5 -> blinking vertical bar
+            " 6 -> solid vertical bar
         endif
     " }}}
 
@@ -542,6 +563,7 @@
                 au BufNewFile,BufRead *.css setlocal filetype=css
                 au BufNewFile,BufRead *.py,*.js,*.css,*.less,*.sass,*.scss,*.html,*.handlebars,*.rst,*.txt,*.md,*.rs setl colorcolumn=80
                 autocmd FileType python,javascript,css,rust autocmd BufWritePre <buffer> :%s/\s\+$//e
+                autocmd BufWritePost *.py call Flake8()
 
             " }}}
 
@@ -826,6 +848,24 @@
         \ },
         \ 'fallback': 'find %s -type f'
     \ }
+
+" }}}
+
+
+" Polyglot {{{
+" ===========
+
+    " let g:polyglot_disabled = ['python', 'python-compiler']
+
+" }}}
+
+
+" flake8 {{{
+" ===========
+
+    let g:flake8_show_in_gutter = 1
+    let g:flake8_show_quickfix = 1
+    let g:flake8_show_in_file = 0
 
 " }}}
 
