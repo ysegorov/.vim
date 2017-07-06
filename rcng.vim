@@ -91,6 +91,8 @@
         "Plug 'elixir-lang/vim-elixir'
         " gruvbox theme
         Plug 'morhetz/gruvbox'
+        " PlantUML
+        Plug 'aklt/plantuml-syntax'
 
         call plug#end()
 
