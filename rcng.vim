@@ -563,8 +563,8 @@
                 au BufNewFile,BufRead *.rst setlocal textwidth=79
                 au BufNewFile,BufRead *.md setlocal textwidth=79
                 au BufNewFile,BufRead *.css setlocal filetype=css
-                au BufNewFile,BufRead *.py,*.js,*.css,*.less,*.sass,*.scss,*.html,*.handlebars,*.rst,*.txt,*.md,*.rs setl colorcolumn=80
-                autocmd FileType python,javascript,css,rust autocmd BufWritePre <buffer> :%s/\s\+$//e
+                au BufNewFile,BufRead *.py,*.js,*.css,*.less,*.sass,*.scss,*.html,*.handlebars,*.rst,*.txt,*.md,*.rs,*.ex,*.exs setl colorcolumn=80
+                autocmd FileType python,javascript,css,rust,elixir autocmd BufWritePre <buffer> :%s/\s\+$//e
                 autocmd BufWritePost *.py call Flake8()
 
             " }}}
