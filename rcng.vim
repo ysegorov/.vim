@@ -509,6 +509,10 @@
         endif
     endfunction "}}}
 
+    fun! rcng#set_colorcolumn()
+        execute "set colorcolumn=" . join(range(81,335), ',')
+    endfunction
+
 " }}}
 
 
@@ -563,6 +567,7 @@
                 au BufNewFile,BufRead *.rst setlocal textwidth=79
                 au BufNewFile,BufRead *.md setlocal textwidth=79
                 au BufNewFile,BufRead *.css setlocal filetype=css
+                " au BufNewFile,BufRead *.py,*.js,*.css,*.less,*.sass,*.scss,*.html,*.handlebars,*.rst,*.txt,*.md,*.rs,*.ex,*.exs call rcng#set_colorcolumn()
                 au BufNewFile,BufRead *.py,*.js,*.css,*.less,*.sass,*.scss,*.html,*.handlebars,*.rst,*.txt,*.md,*.rs,*.ex,*.exs setl colorcolumn=80
                 autocmd FileType python,javascript,css,rust,elixir autocmd BufWritePre <buffer> :%s/\s\+$//e
                 au FileType qf setlocal nonumber colorcolumn=
