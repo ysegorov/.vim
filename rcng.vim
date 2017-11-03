@@ -102,6 +102,7 @@
 
 " }}}
 
+packadd! matchit
 
 " Options {{{
 " =======
@@ -544,7 +545,7 @@
             " au InsertLeave * set nocursorline
 
             " New file templates
-            au BufNewFile * silent! call rcng#load_template()
+            " au BufNewFile * silent! call rcng#load_template()
 
             " Restore cursor position
             au BufWinEnter * call rcng#restore_cursor()
@@ -572,6 +573,7 @@
                 autocmd FileType python,javascript,css,rust,elixir autocmd BufWritePre <buffer> :%s/\s\+$//e
                 au FileType qf setlocal nonumber colorcolumn=
                 autocmd BufWritePost *.py call Flake8()
+                au BufNewFile,BufRead *.js setlocal softtabstop=2 shiftwidth=2
 
             " }}}
 
@@ -615,13 +617,13 @@
         " imap <F10> <esc>:bd<CR>
 
     " List buffers
-        nnoremap <F5> :buffers<CR>:buffer<Space>
+        " nnoremap <F5> :buffers<CR>:buffer<Space>
 
     " {<CR>
         " auto complete {}
-        inoremap [ []<LEFT>
-        inoremap ( ()<LEFT>
-        inoremap { {}<LEFT>
+        " inoremap [ []<LEFT>
+        " inoremap ( ()<LEFT>
+        " inoremap { {}<LEFT>
 
     " }}}
 
@@ -646,10 +648,10 @@
         " endfor sheerun
 
         " Map ; to <Shift>;
-        nnoremap ; :
+        " nnoremap ; :
 
         " Quick exiting without save
-        nnoremap <Leader>`` :qa!<CR>
+        " nnoremap <Leader>`` :qa!<CR>
 
         " Nice scrolling if line wrap
         noremap j gj
@@ -728,44 +730,44 @@
         " Open new tab
         nnoremap <silent> <C-W>t :tabnew<CR>
         " Переключение вкладки по табу
-        nmap <Tab> gt
-        nmap <S-Tab> gT
+        " nmap <Tab> gt
+        " nmap <S-Tab> gT
 
         " Fix Trailing White Space
         " map <leader>ts :%s/\s\+$//e<CR>
 
         " Keymap switch <C-F>
         " cnoremap <silent> <C-F> <C-^>
-        inoremap <silent> <C-F> <C-^>
-        nnoremap <silent> <C-F> a<C-^><Esc>
-        vnoremap <silent> <C-F> <Esc>a<C-^><Esc>gv
+        " inoremap <silent> <C-F> <C-^>
+        " nnoremap <silent> <C-F> a<C-^><Esc>
+        " vnoremap <silent> <C-F> <Esc>a<C-^><Esc>gv
 
-        nnoremap <silent> <leader>ol :set list! list?<CR>
-        nnoremap <silent> <leader>or :set wrap! wrap?<CR>
-        nnoremap <silent> <leader>on :call ToggleRelativeAbsoluteNumber()<CR>
-        function! ToggleRelativeAbsoluteNumber()
-            if !&number && !&relativenumber
-                set number
-                set relativenumber
-            elseif &relativenumber
-                set norelativenumber
-                set number
-            elseif &number
-                set nonumber
-            endif
-        endfunction
+        " nnoremap <silent> <leader>ol :set list! list?<CR>
+        " nnoremap <silent> <leader>or :set wrap! wrap?<CR>
+        " nnoremap <silent> <leader>on :call ToggleRelativeAbsoluteNumber()<CR>
+        " function! ToggleRelativeAbsoluteNumber()
+        "     if !&number && !&relativenumber
+        "         set number
+        "         set relativenumber
+        "     elseif &relativenumber
+        "         set norelativenumber
+        "         set number
+        "     elseif &number
+        "         set nonumber
+        "     endif
+        " endfunction
 
         " Close files
-        nnoremap <silent> <leader>qq :q<CR>
+        " nnoremap <silent> <leader>qq :q<CR>
 
         " Show syntax highlighting groups for word under cursor
-        nmap <C-S-P> :call <SID>SynStack()<CR>
-        function! <SID>SynStack()
-            if !exists("*synstack")
-                return
-            endif
-            echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-        endfunc
+        " nmap <C-S-P> :call <SID>SynStack()<CR>
+        " function! <SID>SynStack()
+        "     if !exists("*synstack")
+        "         return
+        "     endif
+        "     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+        " endfunc
 
 
     " }}}
@@ -780,7 +782,7 @@
         " cnoremap <C-P>      <Up>
 
         " Write as sudo
-        command! W %!sudo tee > /dev/null %
+        " command! W %!sudo tee > /dev/null %
 
     " }}}
 
@@ -792,7 +794,7 @@
         vnoremap > >gv
 
     " git blame
-        vmap <Leader>gg :<C-U>!git blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
+        " vmap <Leader>gg :<C-U>!git blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
 
     " http://tammersaleh.com/posts/quick-vim-svn-blame-snippet
         vmap <Leader>gs :<C-U>!svn blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
