@@ -93,6 +93,8 @@
         Plug 'morhetz/gruvbox'
         " PlantUML
         Plug 'aklt/plantuml-syntax'
+        " projectionist.vim
+        Plug 'tpope/vim-projectionist'
 
         call plug#end()
 
