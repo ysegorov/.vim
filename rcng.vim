@@ -10,12 +10,16 @@
         set backup                                 " make backup file and leave it around
         set backupskip+=svn-commit.tmp,svn-commit.[0-9]*.tmp
 
-        set directory=/tmp                         " where to put swap file
+        set directory=$HOME/.cache/vim/swap        " where to put swap files
         let g:SESSION_DIR   = $HOME.'/.cache/vim/sessions'
 
         " Create system vim dirs
         if finddir(&backupdir) == ''
             silent call mkdir(&backupdir, "p")
+        endif
+
+        if finddir(&directory) == ''
+            silent call mkdir(&directory, "p")
         endif
 
         if finddir(g:SESSION_DIR) == ''
@@ -66,6 +70,7 @@
         " CtrlP
         Plug 'ctrlpvim/ctrlp.vim'
         " Python-mode
+        " Plug 'python-mode/python-mode', { 'branch': 'develop' }
         " Plug 'klen/python-mode'
         " Signify
         Plug 'mhinz/vim-signify'
@@ -195,6 +200,10 @@ packadd! matchit
     set backspace=indent,eol,start  " Allow backspace to remove indents, newlines and old tex"
     set virtualedit=block             " on virtualedit for all mode
     set nrformats=                  " dont use octal and hex in number operations
+
+    " treat words with dash as a word
+    " search-tag as a single word for movement ops
+    set iskeyword+=-
 
     set ttimeoutlen=50
 
@@ -386,7 +395,11 @@ packadd! matchit
     " Undo
     if has('persistent_undo')
         set undofile            " enable persistent undo
-        set undodir=/tmp/       " store undofiles in a tmp dir
+        set undodir=$HOME/.cache/vim/undo        " where to put undo files
+
+        if finddir(&undodir) == ''
+            silent call mkdir(&undodir, "p")
+        endif
     endif
 
     " Folding
