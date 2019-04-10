@@ -13,6 +13,8 @@
         set directory=$HOME/.cache/vim/swap        " where to put swap files
         let g:SESSION_DIR   = $HOME.'/.cache/vim/sessions'
 
+        let g:ale_completion_enabled = 1
+
         " Create system vim dirs
         if finddir(&backupdir) == ''
             silent call mkdir(&backupdir, "p")
@@ -42,7 +44,7 @@
         " vim-polyglot
         Plug 'sheerun/vim-polyglot'
         " flake8
-        Plug 'nvie/vim-flake8'
+        " Plug 'nvie/vim-flake8'
         " solarized color scheme - for gui
         Plug 'altercation/vim-colors-solarized'
         " colorsbox
@@ -76,6 +78,8 @@
         Plug 'mhinz/vim-signify'
         " Toggle comments
         Plug 'tpope/vim-commentary'
+        " ALE (Asynchronous Lint Engine)
+        Plug 'w0rp/ale'
         " Syntastic
         "Plug 'scrooloose/syntastic'
         " Vim Node
@@ -587,7 +591,7 @@ packadd! matchit
                 au BufNewFile,BufRead *.py,*.js,*.css,*.less,*.sass,*.scss,*.html,*.handlebars,*.rst,*.txt,*.md,*.rs,*.ex,*.exs setl colorcolumn=80
                 autocmd FileType python,javascript,css,rust,elixir autocmd BufWritePre <buffer> :%s/\s\+$//e
                 au FileType qf setlocal nonumber colorcolumn=
-                autocmd BufWritePost *.py call Flake8()
+                " autocmd BufWritePost *.py call Flake8()
                 au BufNewFile,BufRead *.js setlocal softtabstop=2 shiftwidth=2
 
             " }}}
@@ -819,6 +823,16 @@ packadd! matchit
 
 " }}}
 
+
+" ALE {{{
+" ========
+
+    nmap ]a :ALENextWrap<CR>
+    nmap [a :ALEPreviousWrap<CR>
+    nmap ]A :ALELast
+    nmap [A :ALEFirst
+
+" }}}
 
 
 " Expand region {{{
